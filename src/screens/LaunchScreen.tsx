@@ -1,32 +1,145 @@
 import React from 'react';
-import { SafeAreaView, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  ImageBackground,
+} from 'react-native';
 
-const LaunchPage = () => {
+import bannerImage from '../../assets/budgetbites-banner.png';
+
+const LaunchScreen = () => {
   return (
-    <SafeAreaView  style={styles.container}>
-      <Text style={styles.title}>Welcome to Budget Bites!</Text>
-      <Text style={styles.subtitle}>Your guide to affordable and healthy meals.</Text>
-    </SafeAreaView >
+    <ScrollView style={styles.container}>
+      {/* Navigation Bar */}
+      <View style={styles.navbar}>
+        <Text style={styles.logo}>
+          🍽️ <Text style={{ fontWeight: 'bold' }}>BudgetBites</Text>
+        </Text>
+        <View style={styles.navLinks}>
+          <Text style={styles.link}>Home</Text>
+          <Text style={styles.link}>Recipes</Text>
+          <Text style={styles.link}>Education Hub</Text>
+          <Text style={styles.link}>Community</Text>
+        </View>
+        <View style={styles.icons}>
+          <Text style={styles.icon}>♡</Text>
+          <Text style={styles.icon}>🔍</Text>
+          <Text style={styles.icon}>👤</Text>
+        </View>
+      </View>
+
+      {/* Hero Banner with Image */}
+      <ImageBackground
+        source={bannerImage}
+        style={styles.hero}
+        resizeMode="cover"
+      >
+        <View style={styles.overlay}>
+          <Text style={styles.headline}>Welcome to BudgetBites.</Text>
+          <Text style={styles.subheadline}>
+            Fighting Hunger. Reducing Waste. Empowering Communities.
+          </Text>
+        </View>
+      </ImageBackground>
+
+      {/* Description Section */}
+      <View style={styles.textSection}>
+        <Text style={styles.description}>
+          In many neighborhoods across the United States, access to healthy, affordable food is a daily challenge. Families living in food deserts often struggle to find fresh fruit and vegetables, while tons of edible food go to waste every day.
+        </Text>
+      </View>
+
+      {/* Placeholder for Map */}
+      <Image
+        source={{ uri: 'https://cdn-icons-png.flaticon.com/512/684/684908.png' }}
+        style={styles.map}
+        resizeMode="contain"
+      />
+    </ScrollView>
   );
 };
 
+export default LaunchScreen;
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor: '#fafafa',
+  },
+  navbar: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+  },
+  logo: {
+    fontSize: 18,
+  },
+  navLinks: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  link: {
+    fontSize: 14,
+    marginHorizontal: 8,
+    color: '#333',
+  },
+  icons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  icon: {
+    fontSize: 16,
+  },
+  hero: {
+    width: '100%',
+    height: 260,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
-  title: {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
+  },
+  headline: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: '#fff',
+    marginBottom: 6,
+    textAlign: 'center',
   },
-  subtitle: {
+  subheadline: {
     fontSize: 16,
-    marginTop: 10,
+    color: '#fff',
+    textAlign: 'center',
+  },
+  textSection: {
+    padding: 20,
+    paddingTop: 24,
+  },
+  description: {
+    fontSize: 15,
+    textAlign: 'center',
     color: '#333',
+    lineHeight: 22,
+  },
+  map: {
+    width: '100%',
+    height: 260,
+    marginTop: 24,
+    marginBottom: 40,
   },
 });
 
-export default LaunchPage;
