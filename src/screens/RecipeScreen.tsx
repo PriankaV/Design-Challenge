@@ -1,97 +1,167 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 
-const recipes = [
+const mockRecipes = [
   {
     id: '1',
-    title: 'Spaghetti Carbonara',
-    ingredients: ['Spaghetti', 'Eggs', 'Pancetta', 'Parmesan Cheese', 'Black Pepper'],
-    instructions: 'Cook spaghetti. Mix eggs and cheese. Fry pancetta. Combine all with spaghetti.',
-    source: 'https://example.com/spaghetti-carbonara',
+    title: 'Baked Mac & Cheese',
+    image: 'https://source.unsplash.com/featured/?macandcheese',
+    prepTime: '30 min',
+    tag: '-30%',
   },
   {
     id: '2',
-    title: 'Chicken Curry',
-    ingredients: ['Chicken', 'Curry Powder', 'Coconut Milk', 'Onions', 'Garlic'],
-    instructions: 'Cook onions and garlic. Add chicken and curry powder. Pour coconut milk and simmer.',
-    source: 'https://example.com/chicken-curry',
+    title: 'Pasta',
+    image: 'https://source.unsplash.com/featured/?pasta',
+    prepTime: '20 min',
+    tag: 'New',
   },
+  {
+    id: '3',
+    title: 'Dosa',
+    image: 'https://source.unsplash.com/featured/?dosa',
+    prepTime: '25 min',
+  },
+  // Add more...
 ];
 
-const RecipeScreen = () => {
-  const [expandedCard, setExpandedCard] = useState<string | null>(null);
-
-  const toggleCard = (id: string) => {
-    setExpandedCard(expandedCard === id ? null : id);
-  };
-
-  const renderRecipeCard = ({ item }: { item: typeof recipes[0] }) => (
-    <TouchableOpacity onPress={() => toggleCard(item.id)} style={styles.card}>
-      <Text style={styles.title}>{item.title}</Text>
-      {expandedCard === item.id && (
-        <View style={styles.details}>
-          <Text style={styles.subtitle}>Ingredients:</Text>
-          {item.ingredients.map((ingredient, index) => (
-            <Text key={index} style={styles.text}>- {ingredient}</Text>
-          ))}
-          <Text style={styles.subtitle}>Instructions:</Text>
-          <Text style={styles.text}>{item.instructions}</Text>
-          <Text style={styles.subtitle}>Source:</Text>
-          <Text style={styles.link}>{item.source}</Text>
-        </View>
-      )}
-    </TouchableOpacity>
+const RecipesScreen = () => {
+  const renderCard = ({ item }: any) => (
+    <View style={styles.card}>
+      <Image source={{ uri: item.image }} style={styles.cardImage} />
+      {item.tag && <Text style={styles.tag}>{item.tag}</Text>}
+      <Text style={styles.cardTitle}>{item.title}</Text>
+      <Text style={styles.cardSubtitle}>Prep Time: {item.prepTime}</Text>
+    </View>
   );
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.pageTitle}>Recipes</Text>
+      </View>
+
+      {/* Filter Bar */}
+      <View style={styles.filterBar}>
+        <Text style={styles.filterText}>🍽️ Filter</Text>
+        <Text style={styles.filterText}>Showing 1–6 of {mockRecipes.length} results</Text>
+        <Text style={styles.filterText}>Show: 6</Text>
+        <Text style={styles.filterText}>Sort by: Default</Text>
+      </View>
+
+      {/* Recipe Grid */}
       <FlatList
-        data={recipes}
-        renderItem={renderRecipeCard}
+        data={mockRecipes}
+        renderItem={renderCard}
         keyExtractor={(item) => item.id}
+        numColumns={2}
+        contentContainerStyle={styles.grid}
       />
-    </View>
+
+      {/* Pagination (static for now) */}
+      <View style={styles.pagination}>
+        <TouchableOpacity style={styles.pageButton}>
+          <Text>1</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.pageButton}>
+          <Text>2</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.pageButton}>
+          <Text>Next</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
 
+export default RecipesScreen;
+
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fafafa',
     flex: 1,
-    padding: 16,
-    backgroundColor: '#f8f8f8',
+  },
+  header: {
+    padding: 20,
+    alignItems: 'center',
+    backgroundColor: '#f4a261',
+  },
+  pageTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  filterBar: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#fff7ed',
+  },
+  filterText: {
+    fontSize: 13,
+    color: '#444',
+    marginVertical: 5,
+  },
+  grid: {
+    paddingHorizontal: 10,
+    gap: 10,
   },
   card: {
     backgroundColor: '#fff',
-    padding: 16,
-    marginBottom: 12,
+    flex: 1,
+    margin: 8,
     borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    overflow: 'hidden',
     elevation: 2,
   },
-  title: {
-    fontSize: 18,
+  cardImage: {
+    width: '100%',
+    height: 120,
+  },
+  tag: {
+    position: 'absolute',
+    top: 6,
+    left: 6,
+    backgroundColor: '#f77f00',
+    color: '#fff',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+    fontSize: 12,
+  },
+  cardTitle: {
+    fontSize: 14,
     fontWeight: 'bold',
+    padding: 8,
+    paddingBottom: 0,
   },
-  details: {
-    marginTop: 12,
+  cardSubtitle: {
+    fontSize: 12,
+    paddingHorizontal: 8,
+    paddingBottom: 8,
+    color: '#666',
   },
-  subtitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 8,
+  pagination: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingVertical: 20,
+    gap: 8,
   },
-  text: {
-    fontSize: 14,
-    marginTop: 4,
-  },
-  link: {
-    fontSize: 14,
-    color: 'blue',
-    marginTop: 4,
+  pageButton: {
+    backgroundColor: '#f4e1c1',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
   },
 });
-
-export default RecipeScreen;
