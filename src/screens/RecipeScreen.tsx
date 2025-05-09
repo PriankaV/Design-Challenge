@@ -63,8 +63,10 @@ const RecipesScreen = () => {
       onPress={() => navigation.navigate('RecipeDetail', { recipe: item })}
     >
       <Image source={{ uri: item.strMealThumb }} style={styles.cardImage} />
-      <Text style={styles.cardTitle}>{item.strMeal}</Text>
-      <Text style={styles.cardSubtitle}>Cuisine: {item.strArea || cuisine}</Text>
+      <View style={styles.cardContent}>
+        <Text style={styles.cardTitle}>{item.strMeal}</Text>
+        <Text style={styles.cardSubtitle}>Cuisine: {item.strArea || cuisine}</Text>
+      </View>
     </TouchableOpacity>
   );
 
@@ -74,19 +76,19 @@ const RecipesScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.pageTitle}>Explore Recipes</Text>
+      <Text style={styles.pageTitle}>🍴 Discover New Recipes</Text>
+      <Text style={styles.pageSubtitle}>Search by name, filter by cuisine, and tap to learn more.</Text>
 
-      {/* Search + Cuisine Filter */}
-      <View style={styles.searchContainer}>
+      <View style={styles.searchFilterContainer}>
         <TextInput
           style={styles.searchInput}
-          placeholder="Search for recipes..."
+          placeholder="Search recipes..."
           value={search}
           onChangeText={(text) => setSearch(text)}
         />
         <Picker
           selectedValue={cuisine}
-          onValueChange={(itemValue) => setCuisine(itemValue)}
+          onValueChange={(value) => setCuisine(value)}
           style={styles.picker}
         >
           <Picker.Item label="All Cuisines" value="" />
@@ -102,18 +104,13 @@ const RecipesScreen = () => {
         </Picker>
       </View>
 
-      {/* Filter Summary */}
-      <View style={styles.filterBar}>
-        <Text style={styles.filterText}>🍽️ Filter</Text>
-        <Text style={styles.filterText}>
-          Showing {startIndex + 1}–{Math.min(startIndex + recipesPerPage, filtered.length)} of {filtered.length} results
-        </Text>
+      <View style={styles.filterInfo}>
+        <Text style={styles.filterText}>🔍 {filtered.length} results found</Text>
         <Text style={styles.filterText}>Page {page} of {totalPages}</Text>
       </View>
 
-      {/* Results */}
       {loading ? (
-        <ActivityIndicator size="large" color="#f4a261" style={{ marginTop: 50 }} />
+        <ActivityIndicator size="large" color="#ff914d" style={{ marginTop: 50 }} />
       ) : (
         <>
           <FlatList
@@ -124,21 +121,20 @@ const RecipesScreen = () => {
             contentContainerStyle={styles.grid}
           />
 
-          {/* Pagination */}
           <View style={styles.pagination}>
             <TouchableOpacity
-              style={styles.pageButton}
+              style={[styles.pageButton, page === 1 && styles.disabledButton]}
               onPress={() => setPage((prev) => Math.max(1, prev - 1))}
               disabled={page === 1}
             >
-              <Text>Back</Text>
+              <Text>◀ Back</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.pageButton}
+              style={[styles.pageButton, page === totalPages && styles.disabledButton]}
               onPress={() => setPage((prev) => Math.min(totalPages, prev + 1))}
               disabled={page === totalPages}
             >
-              <Text>Next</Text>
+              <Text>Next ▶</Text>
             </TouchableOpacity>
           </View>
         </>
@@ -151,18 +147,24 @@ export default RecipesScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#fefcfb',
   },
   pageTitle: {
-    fontSize: 22,
+    fontSize: 26,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: 30,
+    color: '#333',
+  },
+  pageSubtitle: {
+    fontSize: 14,
+    textAlign: 'center',
+    color: '#666',
     marginBottom: 10,
   },
-  searchContainer: {
-    paddingHorizontal: 20,
-    marginBottom: 10,
+  searchFilterContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
   },
   searchInput: {
     backgroundColor: '#fff',
@@ -170,15 +172,15 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: '#ccc',
     borderWidth: 1,
+    marginBottom: 10,
   },
   picker: {
-    marginTop: 10,
     backgroundColor: '#fff',
+    borderRadius: 8,
   },
-  filterBar: {
-    backgroundColor: '#fff7ed',
-    padding: 10,
+  filterInfo: {
     alignItems: 'center',
+    paddingVertical: 10,
   },
   filterText: {
     fontSize: 13,
@@ -187,31 +189,34 @@ const styles = StyleSheet.create({
   grid: {
     paddingHorizontal: 10,
     paddingBottom: 20,
-    gap: 10,
   },
   card: {
     backgroundColor: '#fff',
     flex: 1,
     margin: 8,
-    borderRadius: 8,
+    borderRadius: 12,
     overflow: 'hidden',
-    elevation: 2,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   cardImage: {
     width: '100%',
-    height: 120,
+    height: 140,
+  },
+  cardContent: {
+    padding: 10,
   },
   cardTitle: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: 'bold',
-    padding: 8,
-    paddingBottom: 0,
+    marginBottom: 4,
   },
   cardSubtitle: {
     fontSize: 12,
-    paddingHorizontal: 8,
-    paddingBottom: 8,
-    color: '#666',
+    color: '#777',
   },
   pagination: {
     flexDirection: 'row',
@@ -220,9 +225,12 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   pageButton: {
-    backgroundColor: '#f4e1c1',
+    backgroundColor: '#ffe0b2',
     paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 6,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  disabledButton: {
+    opacity: 0.5,
   },
 });
