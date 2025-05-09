@@ -7,15 +7,18 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  ScrollView,
   ActivityIndicator,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RecipeStackParamList } from '../types';
 import Navigation from '../components/navigation/Navigation';
+
+const CUISINES = [
+  '', 'American', 'British', 'Canadian', 'Chinese', 'French', 'Indian', 'Italian', 'Mexican', 'Spanish',
+];
 
 const RecipesScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RecipeStackParamList, 'RecipeList'>>();
@@ -37,6 +40,7 @@ const RecipesScreen = () => {
 
   const fetchRecipes = async () => {
     try {
+      setLoading(true);
       const url = cuisine
         ? `https://www.themealdb.com/api/json/v1/1/filter.php?a=${cuisine}`
         : 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
@@ -44,9 +48,10 @@ const RecipesScreen = () => {
       const data = await response.json();
       setRecipes(data.meals || []);
       setFiltered(data.meals || []);
-      setLoading(false);
+      setPage(1);
     } catch (error) {
       console.error('Failed to fetch recipes:', error);
+    } finally {
       setLoading(false);
     }
   };
@@ -72,79 +77,84 @@ const RecipesScreen = () => {
     </TouchableOpacity>
   );
 
+  const renderCuisineTags = () => (
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipScroll}>
+      {CUISINES.map((item) => (
+        <TouchableOpacity
+          key={item}
+          style={[
+            styles.chip,
+            cuisine === item && styles.chipSelected,
+          ]}
+          onPress={() => setCuisine(item)}
+        >
+          <Text style={cuisine === item ? styles.chipTextSelected : styles.chipText}>
+            {item || 'All'}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
+  );
+
   const startIndex = (page - 1) * recipesPerPage;
   const currentRecipes = filtered.slice(startIndex, startIndex + recipesPerPage);
   const totalPages = Math.ceil(filtered.length / recipesPerPage);
 
   return (
-    <ScrollView style={styles.container}>
-                    <SafeAreaView>
-      <Navigation/>
-      </SafeAreaView>
-      <Text style={styles.pageTitle}>🍴 Discover New Recipes</Text>
-      <Text style={styles.pageSubtitle}>Search by name, filter by cuisine, and tap to learn more.</Text>
+    <SafeAreaView style={styles.container}>
+      <Navigation>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>🍴 Discover Recipes</Text>
+          <Text style={styles.headerSubtitle}>Search by name or filter by cuisine</Text>
+        </View>
 
-      <View style={styles.searchFilterContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search recipes..."
-          value={search}
-          onChangeText={(text) => setSearch(text)}
-        />
-        <Picker
-          selectedValue={cuisine}
-          onValueChange={(value) => setCuisine(value)}
-          style={styles.picker}
-        >
-          <Picker.Item label="All Cuisines" value="" />
-          <Picker.Item label="American" value="American" />
-          <Picker.Item label="British" value="British" />
-          <Picker.Item label="Canadian" value="Canadian" />
-          <Picker.Item label="Chinese" value="Chinese" />
-          <Picker.Item label="French" value="French" />
-          <Picker.Item label="Indian" value="Indian" />
-          <Picker.Item label="Italian" value="Italian" />
-          <Picker.Item label="Mexican" value="Mexican" />
-          <Picker.Item label="Spanish" value="Spanish" />
-        </Picker>
-      </View>
-
-      <View style={styles.filterInfo}>
-        <Text style={styles.filterText}>🔍 {filtered.length} results found</Text>
-        <Text style={styles.filterText}>Page {page} of {totalPages}</Text>
-      </View>
-
-      {loading ? (
-        <ActivityIndicator size="large" color="#ff914d" style={{ marginTop: 50 }} />
-      ) : (
-        <>
-          <FlatList
-            data={currentRecipes}
-            renderItem={renderCard}
-            keyExtractor={(item) => item.idMeal}
-            numColumns={2}
-            contentContainerStyle={styles.grid}
+        <View style={styles.searchSection}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="🔍 Search recipes..."
+            value={search}
+            onChangeText={setSearch}
           />
+          {renderCuisineTags()}
+        </View>
 
-          <View style={styles.pagination}>
-            <TouchableOpacity
-              style={[styles.pageButton, page === 1 && styles.disabledButton]}
-              onPress={() => setPage((prev) => Math.max(1, prev - 1))}
-              disabled={page === 1}
-            >
-              <Text>◀ Back</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.pageButton, page === totalPages && styles.disabledButton]}
-              onPress={() => setPage((prev) => Math.min(totalPages, prev + 1))}
-              disabled={page === totalPages}
-            >
-              <Text>Next ▶</Text>
-            </TouchableOpacity>
-          </View>
-        </>
-      )}
-    </ScrollView>
+        <View style={styles.filterInfo}>
+          <Text style={styles.filterText}>{filtered.length} results found</Text>
+          <Text style={styles.filterText}>Page {page} of {totalPages}</Text>
+        </View>
+
+        {loading ? (
+          <ActivityIndicator size="large" color="#ff914d" style={{ marginTop: 50 }} />
+        ) : (
+          <>
+            <FlatList
+              data={currentRecipes}
+              renderItem={renderCard}
+              keyExtractor={(item) => item.idMeal}
+              numColumns={2}
+              contentContainerStyle={styles.grid}
+            />
+
+            <View style={styles.pagination}>
+              <TouchableOpacity
+                style={[styles.pageButton, page === 1 && styles.disabledButton]}
+                onPress={() => setPage((prev) => Math.max(1, prev - 1))}
+                disabled={page === 1}
+              >
+                <Text style={styles.pageButtonText}>◀ Back</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.pageButton, page === totalPages && styles.disabledButton]}
+                onPress={() => setPage((prev) => Math.min(totalPages, prev + 1))}
+                disabled={page === totalPages}
+              >
+                <Text style={styles.pageButtonText}>Next ▶</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
+      </Navigation>
+    </SafeAreaView>
   );
 };
 
@@ -152,64 +162,91 @@ export default RecipesScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fefcfb',
+    flex: 1,
+    backgroundColor: '#fffefc',
   },
-  pageTitle: {
+  header: {
+    backgroundColor: '#ff914d',
+    paddingVertical: 30,
+    paddingHorizontal: 16,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+  },
+  headerTitle: {
     fontSize: 26,
     fontWeight: 'bold',
+    color: '#fff',
     textAlign: 'center',
-    marginTop: 30,
-    color: '#333',
   },
-  pageSubtitle: {
+  headerSubtitle: {
     fontSize: 14,
+    color: '#fff',
     textAlign: 'center',
-    color: '#666',
-    marginBottom: 10,
+    marginTop: 4,
   },
-  searchFilterContainer: {
+  searchSection: {
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    marginTop: 16,
   },
   searchInput: {
     backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 10,
-    borderColor: '#ccc',
+    borderRadius: 12,
+    padding: 12,
+    fontSize: 14,
+    borderColor: '#eee',
     borderWidth: 1,
     marginBottom: 10,
   },
-  picker: {
-    backgroundColor: '#fff',
-    borderRadius: 8,
+  chipScroll: {
+    marginBottom: 10,
+  },
+  chip: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: '#f3f3f3',
+    borderRadius: 20,
+    marginRight: 8,
+  },
+  chipSelected: {
+    backgroundColor: '#ff914d',
+  },
+  chipText: {
+    fontSize: 13,
+    color: '#444',
+  },
+  chipTextSelected: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
   filterInfo: {
     alignItems: 'center',
-    paddingVertical: 10,
+    marginVertical: 10,
   },
   filterText: {
     fontSize: 13,
-    color: '#444',
+    color: '#555',
   },
   grid: {
     paddingHorizontal: 10,
     paddingBottom: 20,
   },
   card: {
-    backgroundColor: '#fff',
     flex: 1,
-    margin: 8,
-    borderRadius: 12,
+    backgroundColor: '#fff',
+    borderRadius: 16,
     overflow: 'hidden',
-    elevation: 3,
+    margin: 8,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
+    elevation: 4,
   },
   cardImage: {
     width: '100%',
-    height: 140,
+    height: 150,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
   },
   cardContent: {
     padding: 10,
@@ -217,7 +254,7 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 15,
     fontWeight: 'bold',
-    marginBottom: 4,
+    marginBottom: 2,
   },
   cardSubtitle: {
     fontSize: 12,
@@ -226,14 +263,20 @@ const styles = StyleSheet.create({
   pagination: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingVertical: 20,
-    gap: 12,
+    gap: 16,
+    marginBottom: 30,
+    marginTop: 10,
   },
   pageButton: {
-    backgroundColor: '#ffe0b2',
+    backgroundColor: '#ffcc9a',
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingVertical: 10,
     borderRadius: 8,
+  },
+  pageButtonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#333',
   },
   disabledButton: {
     opacity: 0.5,

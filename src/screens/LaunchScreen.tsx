@@ -46,10 +46,8 @@ const LaunchScreen = () => {
 
   return (
 
-      <ScrollView style={styles.container}>
-              <SafeAreaView>
-      <Navigation/>
-      </SafeAreaView>
+              <SafeAreaView style={styles.container}>
+      <Navigation>
       {/* Hero Image */}
       <ImageBackground source={bannerImage} style={styles.hero} resizeMode="cover">
         <View style={styles.overlay}>
@@ -69,7 +67,8 @@ const LaunchScreen = () => {
       <View style={styles.mapContainer}>
       <MapWrapper selectedFood={selectedFood} setSelectedFood={setSelectedFood} />
       </View>
-    </ScrollView>
+      </Navigation>
+      </SafeAreaView>
 
   );
 };
