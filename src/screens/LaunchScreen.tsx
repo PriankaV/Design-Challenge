@@ -6,30 +6,20 @@ import {
   StyleSheet,
   ScrollView,
   ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
-
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/types';
+import Navigation from '../components/Navigation';
 import bannerImage from '../../assets/budgetbites-banner.png';
 
 const LaunchScreen = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   return (
     <ScrollView style={styles.container}>
       {/* Navigation Bar */}
-      <View style={styles.navbar}>
-        <Text style={styles.logo}>
-          🍽️ <Text style={{ fontWeight: 'bold' }}>BudgetBites</Text>
-        </Text>
-        <View style={styles.navLinks}>
-          <Text style={styles.link}>Home</Text>
-          <Text style={styles.link}>Recipes</Text>
-          <Text style={styles.link}>Education Hub</Text>
-          <Text style={styles.link}>Community</Text>
-        </View>
-        <View style={styles.icons}>
-          <Text style={styles.icon}>♡</Text>
-          <Text style={styles.icon}>🔍</Text>
-          <Text style={styles.icon}>👤</Text>
-        </View>
-      </View>
+      <Navigation />
 
       {/* Hero Banner with Image */}
       <ImageBackground
