@@ -2,6 +2,22 @@
   "expo": {
     "name": "my-app",
     "slug": "my-app",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "ios": {
+      "config": {
+        "googleMapsApiKey": "AIzaSyBBKP_WL23xgy00U1jNSxoQ-qAzcQTyrCo"
+      }
+    },
+    "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBBKP_WL23xgy00U1jNSxoQ-qAzcQTyrCo"
+        }
+      },
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
+    }
   }
 }

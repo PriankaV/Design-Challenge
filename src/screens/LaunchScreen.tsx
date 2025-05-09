@@ -1,53 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   ScrollView,
   ImageBackground,
+  Platform,
   TouchableOpacity,
 } from 'react-native';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../components/navigation/types';
-import Navigation from '../components/navigation/Navigation';
+import { Dimensions } from 'react-native';
+import MapWrapper from '../components/MapWrapper';
 import bannerImage from '../../assets/budgetbites-banner.png';
 
+const { width } = Dimensions.get('window');
+
+const foodData = [
+  {
+    name: 'Neapolitan Pizza',
+    latitude: 40.8529,
+    longitude: 14.2681,
+    description: 'A simple pizza from Naples, Italy.',
+  },
+  {
+    name: 'Sushi',
+    latitude: 35.6762,
+    longitude: 139.6503,
+    description: 'Vinegared rice with various ingredients from Japan.',
+  },
+  {
+    name: 'Tacos',
+    latitude: 23.6345,
+    longitude: -102.5528,
+    description: 'A traditional Mexican corn or wheat tortilla wrap.',
+  },
+];
+
 const LaunchScreen = () => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const [selectedFood, setSelectedFood] = useState(null);
+
+  const handleFoodSelect = (food: any) => {
+    setSelectedFood(food);
+  };
 
   return (
     <ScrollView style={styles.container}>
-      {/* Navigation Bar */}
-      <Navigation />
-
-      {/* Hero Banner with Image */}
-      <ImageBackground
-        source={bannerImage}
-        style={styles.hero}
-        resizeMode="cover"
-      >
+      {/* Hero Image */}
+      <ImageBackground source={bannerImage} style={styles.hero} resizeMode="cover">
         <View style={styles.overlay}>
-          <Text style={styles.headline}>Welcome to BudgetBites.</Text>
-          <Text style={styles.subheadline}>
-            Fighting Hunger. Reducing Waste. Empowering Communities.
-          </Text>
+          <Text style={styles.headline}>Welcome to BudgetBites</Text>
+          <Text style={styles.subheadline}>Fighting Hunger. Reducing Waste.</Text>
         </View>
       </ImageBackground>
 
-      {/* Description Section */}
+      {/* Description */}
       <View style={styles.textSection}>
         <Text style={styles.description}>
-          In many neighborhoods across the United States, access to healthy, affordable food is a daily challenge. Families living in food deserts often struggle to find fresh fruit and vegetables, while tons of edible food go to waste every day.
+          Access to healthy, affordable food is a daily challenge for many. Let’s change that.
         </Text>
       </View>
 
-      {/* Placeholder for Map */}
-      <Image
-        source={{ uri: 'https://cdn-icons-png.flaticon.com/512/684/684908.png' }}
-        style={styles.map}
-        resizeMode="contain"
-      />
+      {/* Conditional Map Rendering */}
+      <View style={styles.mapContainer}>
+      <MapWrapper selectedFood={selectedFood} setSelectedFood={setSelectedFood} />
+      </View>
     </ScrollView>
   );
 };
@@ -56,80 +71,44 @@ export default LaunchScreen;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#fafafa',
-  },
-  navbar: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-  },
-  logo: {
-    fontSize: 18,
-  },
-  navLinks: {
-    flexDirection: 'row',
-    gap: 16,
-  },
-  link: {
-    fontSize: 14,
-    marginHorizontal: 8,
-    color: '#333',
-  },
-  icons: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  icon: {
-    fontSize: 16,
   },
   hero: {
     width: '100%',
-    height: 260,
+    height: 250,
     justifyContent: 'center',
     alignItems: 'center',
   },
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    padding: 24,
-    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    padding: 20,
     alignItems: 'center',
-    height: '100%',
     width: '100%',
+    height: '100%',
+    justifyContent: 'center',
   },
   headline: {
     fontSize: 24,
+    color: 'white',
     fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 6,
-    textAlign: 'center',
   },
   subheadline: {
     fontSize: 16,
-    color: '#fff',
-    textAlign: 'center',
+    color: 'white',
+    marginTop: 10,
   },
   textSection: {
     padding: 20,
-    paddingTop: 24,
   },
   description: {
-    fontSize: 15,
-    textAlign: 'center',
+    fontSize: 16,
     color: '#333',
-    lineHeight: 22,
+    textAlign: 'center',
   },
-  map: {
+  mapContainer: {
+    marginTop: 20,
     width: '100%',
-    height: 260,
-    marginTop: 24,
-    marginBottom: 40,
+    height: 300,
   },
 });
-
