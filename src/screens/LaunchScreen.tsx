@@ -11,6 +11,7 @@ import {
 import { Dimensions } from 'react-native';
 import MapWrapper from '../components/MapWrapper';
 import bannerImage from '../../assets/budgetbites-banner.png';
+import Navigation from '../components/navigation/Navigation';
 
 const { width } = Dimensions.get('window');
 
@@ -44,6 +45,7 @@ const LaunchScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
+      <Navigation/>
       {/* Hero Image */}
       <ImageBackground source={bannerImage} style={styles.hero} resizeMode="cover">
         <View style={styles.overlay}>
