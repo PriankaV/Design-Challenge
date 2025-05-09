@@ -1,80 +1,122 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Image,
-  Dimensions,
-  ScrollView,
-  SafeAreaView,
-} from 'react-native';
-import Navigation from '../components/navigation/Navigation';
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, FlatList, Dimensions, Image } from 'react-native';
 
-const { width } = Dimensions.get('window');
-
-const educationTopics = [
+const categories = [
   {
-    id: '1',
-    title: 'Drink More Water',
-    category: 'Hydration',
-    description: 'Drink at least 8 cups of water daily. Staying hydrated improves focus and digestion.',
-    image: require('../../assets/edu/water.png'),
+    title: 'Meal Prep Basics',
+    data: [
+      {
+        title: 'Plan Your Meals',
+        description: 'Decide what to eat for the week. Keep meals simple and repeat ingredients.',
+        image: require('../../assets/edu/meal-prep.png'),
+      },
+      {
+        title: 'Batch Cook',
+        description: 'Cook large portions of versatile foods like rice, chicken, or beans.',
+        image: require('../../assets/edu/batch-cook.png'),
+      },
+    ],
   },
   {
-    id: '2',
-    title: 'Filter Your Water',
-    category: 'Hydration',
-    description: 'Use carbon filters or boiling methods to ensure clean drinking water.',
-    image: require('../../assets/edu/filter.png'),
+    title: 'Storing Leftovers',
+    data: [
+      {
+        title: 'Use Airtight Containers',
+        description: 'Prevent spoilage and preserve freshness by storing food in sealed containers.',
+        image: require('../../assets/edu/airtight.png'),
+      },
+      {
+        title: 'Label & Date',
+        description: 'Label each container with the contents and date for safe tracking.',
+        image: require('../../assets/edu/label-date.png'),
+      },
+    ],
   },
   {
-    id: '3',
-    title: 'Protein Goals',
-    category: 'Macros',
-    description: 'Get 0.8–1.2g of protein per pound of body weight to support muscle growth.',
-    image: require('../../assets/edu/protein.png'),
+    title: 'Macros',
+    data: [
+      {
+        title: 'Protein Guide',
+        description: 'Essential for muscle repair. Aim for lean sources like chicken, tofu, and beans.',
+        image: require('../../assets/edu/protein.png'),
+      },
+      {
+        title: 'Carbs & Energy',
+        description: 'Complex carbs like oats and brown rice give sustained energy.',
+        image: require('../../assets/edu/carbs.png'),
+      },
+    ],
   },
   {
-    id: '4',
-    title: 'Smart Meal Prep',
-    category: 'Meal Prep',
-    description: 'Cook meals in bulk, label, and store for easy access and less waste.',
-    image: require('../../assets/edu/mealprep.png'),
+    title: 'Healthy Recipes',
+    data: [
+      {
+        title: 'One-Pot Meals',
+        description: 'Simplify cleanup with nutrient-packed one-pot dishes.',
+        image: require('../../assets/edu/one-pot.png'),
+      },
+      {
+        title: 'Snack Smart',
+        description: 'Use pre-cut veggies or yogurt cups for healthy snacks.',
+        image: require('../../assets/edu/snacks.png'),
+      },
+    ],
+  },
+  {
+    title: 'Water',
+    data: [
+      {
+        title: 'Daily Intake',
+        description: 'Aim for 8 cups per day, more with activity or heat.',
+        image: require('../../assets/edu/water.png'),
+      },
+      {
+        title: 'Filtering Tips',
+        description: 'Use charcoal filters or boil tap water to purify.',
+        image: require('../../assets/edu/filter.png'),
+      },
+      {
+        title: 'Hydration Benefits',
+        description: 'Improves energy, digestion, and skin health.',
+        image: require('../../assets/edu/health.png'),
+      },
+    ],
   },
 ];
 
 const EducationHubScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Navigation />
-      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
-        <Text style={styles.heading}>Education Hub</Text>
-        <Text style={styles.subheading}>Browse through nutrition and prep tips</Text>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 60 }}>
+        <Text style={styles.title}>🍎 Education Hub</Text>
+        <Text style={styles.subtitle}>Swipe through each section to learn how to eat smarter and live better.</Text>
 
-        <FlatList
-          horizontal
-          data={educationTopics}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              <Image source={item.image} style={styles.cardImage} />
-              <View style={styles.cardContent}>
-                <Text style={styles.category}>{item.category}</Text>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.description}>{item.description}</Text>
-              </View>
-            </View>
-          )}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.cardList}
-        />
+        {categories.map((section) => (
+          <View key={section.title} style={styles.section}>
+            <Text style={styles.sectionTitle}>{section.title}</Text>
+            <FlatList
+              data={section.data}
+              horizontal
+              keyExtractor={(item) => item.title}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ paddingVertical: 12 }}
+              renderItem={({ item }) => (
+                <View style={styles.card}>
+                  <Image source={item.image} style={styles.cardImage} />
+                  <Text style={styles.cardTitle}>{item.title}</Text>
+                  <Text style={styles.cardText}>{item.description}</Text>
+                </View>
+              )}
+            />
+          </View>
+        ))}
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default EducationHubScreen;
+const { width } = Dimensions.get('window');
+const CARD_WIDTH = width * 0.75;
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -84,53 +126,55 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
   },
-  heading: {
+  title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#2d3436',
     marginTop: 20,
+    marginBottom: 6,
+    color: '#333',
   },
-  subheading: {
-    fontSize: 16,
-    color: '#636e72',
-    marginBottom: 20,
+  subtitle: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 24,
   },
-  cardList: {
-    paddingVertical: 10,
+  section: {
+    marginBottom: 32,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    marginBottom: 12,
+    color: '#444',
   },
   card: {
-    backgroundColor: '#fff',
+    width: CARD_WIDTH,
+    marginRight: 14,
+    backgroundColor: '#fdfdfd',
     borderRadius: 12,
-    marginRight: 16,
-    width: width * 0.7,
+    padding: 14,
     shadowColor: '#000',
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.1,
     shadowRadius: 6,
-    elevation: 3,
+    elevation: 2,
   },
   cardImage: {
     width: '100%',
     height: 120,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+    borderRadius: 8,
+    marginBottom: 10,
   },
-  cardContent: {
-    padding: 12,
-  },
-  category: {
-    fontSize: 12,
-    color: '#00b894',
-    marginBottom: 4,
-    textTransform: 'uppercase',
-  },
-  title: {
+  cardTitle: {
     fontSize: 16,
     fontWeight: '600',
+    marginBottom: 4,
     color: '#2d3436',
-    marginBottom: 6,
   },
-  description: {
+  cardText: {
     fontSize: 14,
     color: '#636e72',
+    lineHeight: 20,
   },
 });
+
+export default EducationHubScreen;
