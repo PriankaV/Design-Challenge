@@ -9,8 +9,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../navigation/types';
-import Navigation from '../components/Navigation';
+import { RootStackParamList } from '../components/navigation/types';
+import Navigation from '../components/navigation/Navigation';
 import bannerImage from '../../assets/budgetbites-banner.png';
 
 const LaunchScreen = () => {

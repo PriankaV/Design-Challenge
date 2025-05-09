@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import Navigation from '../components/navigation/Navigation';
 
 const SettingsScreen = () => {
   const [profilePicture, setProfilePicture] = useState<string | null>(null);
@@ -37,6 +38,7 @@ const SettingsScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+            <Navigation/>
       <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
         {profilePicture ? (
           <Image source={{ uri: profilePicture }} style={styles.profileImage} />

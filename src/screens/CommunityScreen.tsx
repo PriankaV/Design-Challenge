@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TextInput, Button, TouchableOpacity } from 'react-native';
+import Navigation from '../components/navigation/Navigation';
 
 const initialPosts = [
   {
@@ -45,6 +46,7 @@ const CommunityScreen = () => {
 
   return (
     <View style={styles.container}>
+            <Navigation/>
       <Text style={styles.header}>Community Forum</Text>
       <View style={styles.inputContainer}>
         <TextInput

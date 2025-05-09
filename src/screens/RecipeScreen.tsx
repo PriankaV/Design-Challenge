@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import Navigation from '../components/navigation/Navigation';
 
 const mockRecipes = [
   {
@@ -45,6 +46,7 @@ const RecipesScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
+        <Navigation/>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.pageTitle}>Recipes</Text>
