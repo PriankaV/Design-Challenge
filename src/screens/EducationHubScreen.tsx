@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, SafeAreaView, FlatList, Dimensions, Image } from 'react-native';
+import Navigation from '../components/navigation/Navigation';
 
 const categories = [
   {
@@ -86,8 +87,10 @@ const categories = [
 
 const EducationHubScreen = () => {
   return (
-    <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 60 }}>
+                      <SafeAreaView>
+      <Navigation/>
+      </SafeAreaView>
         <Text style={styles.title}>🍎 Education Hub</Text>
         <Text style={styles.subtitle}>Swipe through each section to learn how to eat smarter and live better.</Text>
 
@@ -111,7 +114,6 @@ const EducationHubScreen = () => {
           </View>
         ))}
       </ScrollView>
-    </SafeAreaView>
   );
 };
 

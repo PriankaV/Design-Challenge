@@ -12,6 +12,7 @@ import { Dimensions } from 'react-native';
 import MapWrapper from '../components/MapWrapper';
 import bannerImage from '../../assets/budgetbites-banner.png';
 import Navigation from '../components/navigation/Navigation';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 
@@ -44,8 +45,11 @@ const LaunchScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+
+      <ScrollView style={styles.container}>
+              <SafeAreaView>
       <Navigation/>
+      </SafeAreaView>
       {/* Hero Image */}
       <ImageBackground source={bannerImage} style={styles.hero} resizeMode="cover">
         <View style={styles.overlay}>
@@ -66,6 +70,7 @@ const LaunchScreen = () => {
       <MapWrapper selectedFood={selectedFood} setSelectedFood={setSelectedFood} />
       </View>
     </ScrollView>
+
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, View, ActivityIndicator } from 'react-native';
+import { Platform, View, ActivityIndicator, Text } from 'react-native';
 import { Dimensions } from 'react-native';
-import { Map as WebMap, Marker as WebMarker } from 'pigeon-maps';
+import { Overlay, Map as WebMap, Marker as WebMarker } from 'pigeon-maps';
 
 const { width } = Dimensions.get('window');
 
@@ -44,23 +44,43 @@ const MapWrapper = ({ selectedFood, setSelectedFood }) => {
   if (Platform.OS === 'web') {
     return (
       <WebMap
-        defaultCenter={[20, 0]}
-        defaultZoom={2}
-        center={
-          selectedFood ? [selectedFood.latitude, selectedFood.longitude] : [20, 0]
-        }
-        zoom={selectedFood ? 6 : 2}
-        width={width}
-        height={300}
-      >
-        {foodData.map((food, idx) => (
-          <WebMarker
-            key={idx}
-            anchor={[food.latitude, food.longitude]}
-            onClick={() => setSelectedFood(food)}
-          />
-        ))}
-      </WebMap>
+      defaultCenter={[20, 0]}
+      defaultZoom={2}
+      center={
+        selectedFood ? [selectedFood.latitude, selectedFood.longitude] : [20, 0]
+      }
+      width={width}
+      height={300}
+    >
+      {foodData.map((food, idx) => (
+        <WebMarker
+          key={idx}
+          anchor={[food.latitude, food.longitude]}
+          onClick={() => setSelectedFood(food)}
+        />
+      ))}
+
+      {selectedFood && (
+        <Overlay anchor={[selectedFood.latitude, selectedFood.longitude]} offset={[0, 50]}>
+          <View
+            style={{
+              backgroundColor: 'white',
+              padding: 10,
+              borderRadius: 8,
+              borderColor: '#ccc',
+              borderWidth: 1,
+              maxWidth: 200,
+              boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+            }}
+          >
+            <Text style={{ fontWeight: 'bold', fontSize: 14 }}>
+              {selectedFood.name}
+            </Text>
+            <Text style={{ fontSize: 12 }}>{selectedFood.description}</Text>
+          </View>
+        </Overlay>
+      )}
+    </WebMap>
     );
   }
 

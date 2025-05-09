@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TextInput, Button, TouchableOpacity, SafeAreaView } from 'react-native';
 import Navigation from '../components/navigation/Navigation';
 
 const initialPosts = [
@@ -46,7 +46,9 @@ const CommunityScreen = () => {
 
   return (
     <View style={styles.container}>
-            <Navigation/>
+                    <SafeAreaView>
+      <Navigation/>
+      </SafeAreaView>
       <Text style={styles.header}>Community Forum</Text>
       <View style={styles.inputContainer}>
         <TextInput

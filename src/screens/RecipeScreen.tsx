@@ -9,11 +9,13 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RecipeStackParamList } from '../types';
+import Navigation from '../components/navigation/Navigation';
 
 const RecipesScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RecipeStackParamList, 'RecipeList'>>();
@@ -76,6 +78,9 @@ const RecipesScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
+                    <SafeAreaView>
+      <Navigation/>
+      </SafeAreaView>
       <Text style={styles.pageTitle}>🍴 Discover New Recipes</Text>
       <Text style={styles.pageSubtitle}>Search by name, filter by cuisine, and tap to learn more.</Text>
 
