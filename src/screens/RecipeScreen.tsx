@@ -1,84 +1,144 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
+  TextInput,
   StyleSheet,
-  ScrollView,
   FlatList,
   Image,
   TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+  Picker,
 } from 'react-native';
-
-const mockRecipes = [
-  {
-    id: '1',
-    title: 'Baked Mac & Cheese',
-    image: 'https://source.unsplash.com/featured/?macandcheese',
-    prepTime: '30 min',
-    tag: '-30%',
-  },
-  {
-    id: '2',
-    title: 'Pasta',
-    image: 'https://source.unsplash.com/featured/?pasta',
-    prepTime: '20 min',
-    tag: 'New',
-  },
-  {
-    id: '3',
-    title: 'Dosa',
-    image: 'https://source.unsplash.com/featured/?dosa',
-    prepTime: '25 min',
-  },
-  // Add more...
-];
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RecipeStackParamList } from '../types';
 
 const RecipesScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RecipeStackParamList, 'RecipeList'>>();
+  const [recipes, setRecipes] = useState<any[]>([]);
+  const [filtered, setFiltered] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [cuisine, setCuisine] = useState('');
+  const recipesPerPage = 6;
+
+  useEffect(() => {
+    fetchRecipes();
+  }, [cuisine]);
+
+  useEffect(() => {
+    filterRecipes();
+  }, [search, recipes]);
+
+  const fetchRecipes = async () => {
+    try {
+      const url = cuisine
+        ? `https://www.themealdb.com/api/json/v1/1/filter.php?a=${cuisine}`
+        : 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+      const response = await fetch(url);
+      const data = await response.json();
+      setRecipes(data.meals || []);
+      setFiltered(data.meals || []);
+      setLoading(false);
+    } catch (error) {
+      console.error('Failed to fetch recipes:', error);
+      setLoading(false);
+    }
+  };
+
+  const filterRecipes = () => {
+    const filteredList = recipes.filter((recipe) =>
+      recipe.strMeal.toLowerCase().includes(search.toLowerCase())
+    );
+    setFiltered(filteredList);
+    setPage(1);
+  };
+
   const renderCard = ({ item }: any) => (
-    <View style={styles.card}>
-      <Image source={{ uri: item.image }} style={styles.cardImage} />
-      {item.tag && <Text style={styles.tag}>{item.tag}</Text>}
-      <Text style={styles.cardTitle}>{item.title}</Text>
-      <Text style={styles.cardSubtitle}>Prep Time: {item.prepTime}</Text>
-    </View>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => navigation.navigate('RecipeDetail', { recipe: item })}
+    >
+      <Image source={{ uri: item.strMealThumb }} style={styles.cardImage} />
+      <Text style={styles.cardTitle}>{item.strMeal}</Text>
+      <Text style={styles.cardSubtitle}>Cuisine: {item.strArea}</Text>
+    </TouchableOpacity>
   );
+
+  const startIndex = (page - 1) * recipesPerPage;
+  const currentRecipes = filtered.slice(startIndex, startIndex + recipesPerPage);
+  const totalPages = Math.ceil(filtered.length / recipesPerPage);
 
   return (
     <ScrollView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.pageTitle}>Recipes</Text>
+      <Text style={styles.pageTitle}>Explore Recipes</Text>
+
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search for recipes..."
+          value={search}
+          onChangeText={(text) => setSearch(text)}
+        />
+        <Picker
+          selectedValue={cuisine}
+          onValueChange={(itemValue) => setCuisine(itemValue)}
+          style={styles.picker}
+        >
+          <Picker.Item label="All Cuisines" value="" />
+          <Picker.Item label="American" value="American" />
+          <Picker.Item label="British" value="British" />
+          <Picker.Item label="Canadian" value="Canadian" />
+          <Picker.Item label="Chinese" value="Chinese" />
+          <Picker.Item label="French" value="French" />
+          <Picker.Item label="Indian" value="Indian" />
+          <Picker.Item label="Italian" value="Italian" />
+          <Picker.Item label="Mexican" value="Mexican" />
+          <Picker.Item label="Spanish" value="Spanish" />
+        </Picker>
       </View>
 
-      {/* Filter Bar */}
       <View style={styles.filterBar}>
         <Text style={styles.filterText}>🍽️ Filter</Text>
-        <Text style={styles.filterText}>Showing 1–6 of {mockRecipes.length} results</Text>
-        <Text style={styles.filterText}>Show: 6</Text>
-        <Text style={styles.filterText}>Sort by: Default</Text>
+        <Text style={styles.filterText}>
+          Showing {startIndex + 1}–{Math.min(startIndex + recipesPerPage, filtered.length)} of {filtered.length} results
+        </Text>
+        <Text style={styles.filterText}>Page {page} of {totalPages}</Text>
       </View>
 
-      {/* Recipe Grid */}
-      <FlatList
-        data={mockRecipes}
-        renderItem={renderCard}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        contentContainerStyle={styles.grid}
-      />
+      {loading ? (
+        <ActivityIndicator size="large" color="#f4a261" style={{ marginTop: 50 }} />
+      ) : (
+        <>
+          <FlatList
+            data={currentRecipes}
+            renderItem={renderCard}
+            keyExtractor={(item) => item.idMeal}
+            numColumns={2}
+            contentContainerStyle={styles.grid}
+          />
 
-      {/* Pagination (static for now) */}
-      <View style={styles.pagination}>
-        <TouchableOpacity style={styles.pageButton}>
-          <Text>1</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.pageButton}>
-          <Text>2</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.pageButton}>
-          <Text>Next</Text>
-        </TouchableOpacity>
-      </View>
+          <View style={styles.pagination}>
+            <TouchableOpacity
+              style={styles.pageButton}
+              onPress={() => setPage((prev) => Math.max(1, prev - 1))}
+              disabled={page === 1}
+            >
+              <Text>Back</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.pageButton}
+              onPress={() => setPage((prev) => Math.min(totalPages, prev + 1))}
+              disabled={page === totalPages}
+            >
+              <Text>Next</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </ScrollView>
   );
 };
@@ -88,33 +148,41 @@ export default RecipesScreen;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fafafa',
-    flex: 1,
-  },
-  header: {
-    padding: 20,
-    alignItems: 'center',
-    backgroundColor: '#f4a261',
   },
   pageTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#fff',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  searchContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 10,
+  },
+  searchInput: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 10,
+    borderColor: '#ccc',
+    borderWidth: 1,
+  },
+  picker: {
+    marginTop: 10,
+    backgroundColor: '#fff',
   },
   filterBar: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    padding: 10,
     backgroundColor: '#fff7ed',
+    padding: 10,
+    alignItems: 'center',
   },
   filterText: {
     fontSize: 13,
     color: '#444',
-    marginVertical: 5,
   },
   grid: {
     paddingHorizontal: 10,
+    paddingBottom: 20,
     gap: 10,
   },
   card: {
@@ -128,17 +196,6 @@ const styles = StyleSheet.create({
   cardImage: {
     width: '100%',
     height: 120,
-  },
-  tag: {
-    position: 'absolute',
-    top: 6,
-    left: 6,
-    backgroundColor: '#f77f00',
-    color: '#fff',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-    fontSize: 12,
   },
   cardTitle: {
     fontSize: 14,
@@ -156,11 +213,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     paddingVertical: 20,
-    gap: 8,
+    gap: 12,
   },
   pageButton: {
     backgroundColor: '#f4e1c1',
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     paddingVertical: 6,
     borderRadius: 6,
   },

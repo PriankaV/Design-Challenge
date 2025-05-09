@@ -1,5 +1,6 @@
-import RecipesScreen from './src/screens/RecipeScreen';
+import React from 'react';
+import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {
-  return <RecipesScreen />;
+  return <AppNavigator />;
 }
