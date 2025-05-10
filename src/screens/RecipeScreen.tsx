@@ -13,7 +13,7 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RecipeStackParamList } from '../types';
+import { RecipeStackParamList } from '../utils/types';
 
 const RecipesScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RecipeStackParamList, 'RecipeList'>>();
