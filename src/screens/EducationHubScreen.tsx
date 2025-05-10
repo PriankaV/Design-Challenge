@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, SafeAreaView, FlatList, Dimensions, Image } from 'react-native';
+import Navigation from '../components/navigation/Navigation';
 
 const categories = [
   {
@@ -84,12 +85,22 @@ const categories = [
   },
 ];
 
+
 const EducationHubScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 60 }}>
-        <Text style={styles.title}>🍎 Education Hub</Text>
-        <Text style={styles.subtitle}>Swipe through each section to learn how to eat smarter and live better.</Text>
+      <Navigation>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{ paddingBottom: 80 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.header}>
+          <Text style={styles.title}>🍎 Education Hub</Text>
+          <Text style={styles.subtitle}>
+            Learn to eat smarter, live better, and master the basics of food prep, nutrition, and wellness.
+          </Text>
+        </View>
 
         {categories.map((section) => (
           <View key={section.title} style={styles.section}>
@@ -99,7 +110,7 @@ const EducationHubScreen = () => {
               horizontal
               keyExtractor={(item) => item.title}
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ paddingVertical: 12 }}
+              contentContainerStyle={styles.cardList}
               renderItem={({ item }) => (
                 <View style={styles.card}>
                   <Image source={item.image} style={styles.cardImage} />
@@ -111,57 +122,69 @@ const EducationHubScreen = () => {
           </View>
         ))}
       </ScrollView>
+      </Navigation>
     </SafeAreaView>
   );
 };
 
 const { width } = Dimensions.get('window');
-const CARD_WIDTH = width * 0.75;
+const CARD_WIDTH = width * 0.72;
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fffefc',
   },
   container: {
     paddingHorizontal: 16,
   },
+  header: {
+    backgroundColor: '#fddfb5',
+    paddingVertical: 24,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    marginTop: 16,
+    marginBottom: 20,
+  },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginTop: 20,
+    color: '#2d3436',
     marginBottom: 6,
-    color: '#333',
   },
   subtitle: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 24,
+    fontSize: 15,
+    color: '#636e72',
+    lineHeight: 20,
   },
   section: {
     marginBottom: 32,
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: '700',
+    color: '#ff914d',
     marginBottom: 12,
-    color: '#444',
+  },
+  cardList: {
+    paddingVertical: 8,
   },
   card: {
     width: CARD_WIDTH,
-    marginRight: 14,
-    backgroundColor: '#fdfdfd',
-    borderRadius: 12,
-    padding: 14,
+    marginRight: 16,
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    padding: 16,
     shadowColor: '#000',
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.05,
     shadowRadius: 6,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
   },
   cardImage: {
     width: '100%',
-    height: 120,
-    borderRadius: 8,
+    height: 130,
+    borderRadius: 10,
     marginBottom: 10,
   },
   cardTitle: {
@@ -178,3 +201,4 @@ const styles = StyleSheet.create({
 });
 
 export default EducationHubScreen;
+
