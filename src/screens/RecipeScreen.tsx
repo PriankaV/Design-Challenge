@@ -13,16 +13,12 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-<<<<<<< HEAD
 import { RecipeStackParamList } from '../utils/types';
-=======
-import { RecipeStackParamList } from '../types';
 import Navigation from '../components/navigation/Navigation';
 
 const CUISINES = [
   '', 'American', 'British', 'Canadian', 'Chinese', 'French', 'Indian', 'Italian', 'Mexican', 'Spanish',
 ];
->>>>>>> 7d541c8eb51a97339e974256afac55a261bba861
 
 const RecipesScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RecipeStackParamList, 'RecipeList'>>();
