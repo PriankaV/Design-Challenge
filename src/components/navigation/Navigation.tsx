@@ -169,17 +169,17 @@ export default Navigation;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fffaf0',
+    backgroundColor: 'transparent',
   },
   navbar: {
     paddingVertical: 16,
     paddingHorizontal: 24,
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     elevation: 4,
-    shadowColor: '#000',
+    shadowColor: '#333',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 6,
@@ -204,9 +204,7 @@ const styles = StyleSheet.create({
   },
   webContent: {
     flex: 1,
-    paddingTop: 40,
-    paddingHorizontal: 24,
-    backgroundColor: '#fffaf0',
+    padding: 0,
   },
   navLinks: {
     flexDirection: 'row',
