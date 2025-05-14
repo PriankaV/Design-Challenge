@@ -64,8 +64,6 @@ const MapWrapper: React.FC<MapWrapperProps> = ({
             [Number(selectedFood.latitude), Number(selectedFood.longitude)] : 
             [39.8283, -98.5795]
         }
-        width={width}
-        height={300}
       >
         {validFoodBanks.map((bank, idx) => {
           const coords = validateCoordinates(bank);
@@ -117,7 +115,6 @@ const MapWrapper: React.FC<MapWrapperProps> = ({
 
   return (
     <MapView
-      style={{ width: '100%', height: 300 }}
       initialRegion={{
         latitude: 39.8283,
         longitude: -98.5795,

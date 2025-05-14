@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Animated, ScrollView } from 'react-native';
-import { Search, MapPin, Filter } from 'lucide-react-native'; // Use `lucide-react-native` in RN
+import { Search, MapPin, Filter } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
 
 import MapWrapper from '../components/MapWrapper';
 import Navigation from '../components/navigation/Navigation';
 import styles from '../styles/LaunchScreen';
-import foodBankData from '../../assets/food_banks_geocoded.json'; // ✅ Use JSON instead of CSV
+import foodBankData from '../../assets/food_banks_geocoded.json';
 
 // How it Works Card info
 const stepsData = [
