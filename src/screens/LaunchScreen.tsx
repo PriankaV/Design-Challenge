@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
 import MapWrapper from '../components/MapWrapper';
 import Navigation from '../components/navigation/Navigation';
+import { parse } from 'papaparse';
 
 // How it Works Card info
 const stepsData = [
@@ -14,20 +15,26 @@ const stepsData = [
   { number: "04", title: "Build Community", description: "Reduce food waste while creating stronger, more resilient neighborhood connections." }
 ];
 
-// temp food info -- change
-const mockfoodSources = [
-  { id: 1, name: "Farm Fresh Market", type: "farmer", address: "123 Main St", distance: "0.8 miles", rating: 4.8, tags: ["organic", "fresh"] },
-  { id: 2, name: "Green Valley Co-op", type: "coop", address: "456 Oak Ave", distance: "1.2 miles", rating: 4.5, tags: ["organic", "local"] },
-  { id: 3, name: "City Farmers Market", type: "market", address: "789 Market St", distance: "0.5 miles", rating: 4.7, tags: ["fresh", "seasonal"] },
-  { id: 4, name: "Harbor Fish Market", type: "market", address: "321 Harbor Dr", distance: "1.5 miles", rating: 4.6, tags: ["fresh", "sustainable"] }
-];
+// Update the FoodSource interface to match our food bank data
+interface FoodBankData {
+  Name: string;
+  State: string;
+  Address: string;
+  City: string;
+  "State Zipcode": string;
+  Contact: string;
+  latitude: number;
+  longitude: number;
+  geocoding_status: string;
+}
 
 const LaunchScreen = () => {
-  const [selectedFood, setSelectedFood] = useState(null);
+  const [selectedFood, setSelectedFood] = useState<FoodBankData | null>(null);
+  const [foodBanks, setFoodBanks] = useState<FoodBankData[]>([]);
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const [location, setLocation] = useState('');
-  const [activeFilters, setActiveFilters] = useState(['fresh']);
-  const [selectedSource, setSelectedSource] = useState(null);
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Pulse animation
   useEffect(() => {
@@ -43,7 +50,36 @@ const LaunchScreen = () => {
     ).start();
   }, []);
 
-  const handleFilterToggle = (filter) => {
+  // Update the useEffect that fetches food bank data
+  useEffect(() => {
+    try {
+      const csvData = require('../../assets/food_banks_geocoded.csv');
+      fetch(csvData)
+        .then((response) => response.text())
+        .then((csvText) => {
+          parse(csvText, {
+            header: true,
+            skipEmptyLines: true,
+            complete: (results) => {
+              const validFoodBanks = results.data.filter((bank: FoodBankData) => 
+                bank.latitude && bank.longitude && bank.geocoding_status === 'success'
+              );
+              setFoodBanks(validFoodBanks);
+              setLoading(false);
+            },
+          });
+        })
+        .catch(error => {
+          console.error('Error loading food banks:', error);
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error('Error requiring CSV file:', error);
+      setLoading(false);
+    }
+  }, []);
+
+  const handleFilterToggle = (filter: string) => {
     if (activeFilters.includes(filter)) {
       setActiveFilters(activeFilters.filter(f => f !== filter));
     } else {
@@ -51,9 +87,12 @@ const LaunchScreen = () => {
     }
   };
   
-  const filteredSources = mockfoodSources.filter(source => 
-    activeFilters.length === 0 || 
-    activeFilters.some(filter => source.tags.includes(filter))
+  // Update the filteredSources to use food bank data
+  const filteredSources = foodBanks.filter(bank => 
+    !location || 
+    bank.State.toLowerCase().includes(location.toLowerCase()) ||
+    bank.City.toLowerCase().includes(location.toLowerCase()) ||
+    bank["State Zipcode"].includes(location)
   );
 
   return (
@@ -201,40 +240,37 @@ const LaunchScreen = () => {
               </View>
               
               <ScrollView style={styles.resultsList}>
-                {filteredSources.map(source => (
+                {filteredSources.map((bank, index) => (
                   <TouchableOpacity 
-                    key={source.id} 
+                    key={index} 
                     style={[
                       styles.resultCard,
-                      selectedSource?.id === source.id ? styles.resultCardSelected : {}
+                      selectedFood?.Name === bank.Name ? styles.resultCardSelected : {}
                     ]}
-                    onPress={() => setSelectedSource(source)}
+                    onPress={() => setSelectedFood(bank)}
                   >
                     <View style={styles.resultCardHeader}>
                       <View style={styles.resultCardTitleContainer}>
-                        <Text style={styles.resultCardTitle}>{source.name}</Text>
-                      </View>
-                      <View style={styles.ratingContainer}>
-                        <Text style={styles.ratingText}>{source.rating}</Text>
+                        <Text style={styles.resultCardTitle}>{bank.Name}</Text>
                       </View>
                     </View>
                     
                     <View style={styles.resultCardDetails}>
                       <View style={styles.resultCardDetail}>
                         <MapPin size={14} color="#666" />
-                        <Text style={styles.resultCardDetailText}>{source.address}</Text>
+                        <Text style={styles.resultCardDetailText}>
+                          {`${bank.Address}, ${bank.City}, ${bank["State Zipcode"]}`}
+                        </Text>
                       </View>
                       <View style={styles.resultCardDetail}>
-                        <Text style={styles.resultCardDetailText}>{source.distance}</Text>
+                        <Text style={styles.resultCardDetailText}>{bank.Contact}</Text>
                       </View>
                     </View>
                     
                     <View style={styles.tagsContainer}>
-                      {source.tags.map(tag => (
-                        <View key={tag} style={styles.tag}>
-                          <Text style={styles.tagText}>{tag}</Text>
-                        </View>
-                      ))}
+                      <View style={styles.tag}>
+                        <Text style={styles.tagText}>{bank.State}</Text>
+                      </View>
                     </View>
                   </TouchableOpacity>
                 ))}
@@ -244,7 +280,11 @@ const LaunchScreen = () => {
             {/* Right Column - Map */}
             <View style={styles.mapColumn}>          
               <View style={styles.mapContainer}>
-                <MapWrapper selectedFood={selectedFood} setSelectedFood={setSelectedFood} />
+                <MapWrapper 
+                  selectedFood={selectedFood} 
+                  setSelectedFood={(food: FoodBankData) => setSelectedFood(food)}
+                  foodBanks={filteredSources} // Pass filtered sources instead of all food banks
+                />
               </View>
             </View>
           </View>
