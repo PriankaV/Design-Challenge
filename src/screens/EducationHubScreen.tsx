@@ -312,7 +312,7 @@ const EducationHubScreen = () => {
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 100 }} showsVerticalScrollIndicator={false}>
           {/* Hero Section */}
           <ImageBackground
-            source={require('../../assets/edu-background.jpg')}
+            source={require('../../assets/images/edu-background.jpg')}
             style={styles.heroPattern}
             resizeMode="cover"
           >

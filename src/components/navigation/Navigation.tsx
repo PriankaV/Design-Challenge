@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity, Platform, Image } from 'react-native';
 import { useNavigation, NavigationProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from './types';
-import { Heart, Search, User, MapPin, Book, Bookmark, Users } from 'react-native-feather';
-import logo from '../../../assets/logo.png';
+import { Heart, Search, User, MapPin, BookOpen, Bookmark, Users } from 'lucide-react';
+import logo from '../../../assets/images/logo.png';
 
 type NavigationProps = {
   children?: React.ReactNode;
@@ -18,10 +18,10 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
   };
 
   const navItems = [
-    { name: 'Home', route: 'Home', icon: (color: string) => <MapPin width={20} height={20} stroke={color} /> },
-    { name: 'Recipes', route: 'Recipe', icon: (color: string) => <Book width={20} height={20} stroke={color} /> },
-    { name: 'Education Hub', route: 'Education Hub', icon: (color: string) => <Bookmark width={20} height={20} stroke={color} /> },
-    { name: 'Community', route: 'Community', icon: (color: string) => <Users width={20} height={20} stroke={color} /> },
+    { name: 'Home', route: 'Home', icon: (color: string) => <MapPin size={20} color={color} /> },
+    { name: 'Recipes', route: 'Recipe', icon: (color: string) => <BookOpen size={20} color={color} /> },
+    { name: 'Education Hub', route: 'Education Hub', icon: (color: string) => <Bookmark size={20} color={color} /> },
+    { name: 'Community', route: 'Community', icon: (color: string) => <Users size={20} color={color} /> },
   ];
 
   const handleNavigation = (screen: keyof RootStackParamList) => {
@@ -68,19 +68,19 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
               style={styles.iconButton}
               accessibilityLabel="Favorites"
             >
-              <Heart width={22} height={22} stroke="#b7612c" />
+              <Heart size={22} color="#b7612c" />
             </TouchableOpacity>
             <TouchableOpacity 
               style={styles.iconButton}
               accessibilityLabel="Search"
             >
-              <Search width={22} height={22} stroke="#555" />
+              <Search size={22} color="#555" />
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.iconButton, styles.profileButton]}
               accessibilityLabel="User profile"
             >
-              <User width={22} height={22} stroke="#555" />
+              <User size={22} color="#555" />
             </TouchableOpacity>
           </View>
         </View>
@@ -111,19 +111,19 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
             style={styles.iconButton}
             accessibilityLabel="Favorites"
           >
-            <Heart width={22} height={22} stroke="#b7612c" />
+            <Heart size={22} color="#b7612c" />
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.iconButton}
             accessibilityLabel="Search"
           >
-            <Search width={22} height={22} stroke="#555" />
+            <Search size={22} color="#555" />
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.iconButton, styles.mobileProfileButton]}
             accessibilityLabel="User profile"
           >
-            <User width={22} height={22} stroke="#555" />
+            <User size={22} color="#555" />
           </TouchableOpacity>
         </View>
       </View>
