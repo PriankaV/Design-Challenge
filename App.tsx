@@ -16,8 +16,8 @@ export default function App() {
         <Stack.Screen name="Home" component={LaunchScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Recipe" component={RecipeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Education Hub" component={EducationHubScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Community" component={CommunityScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
+        {/* <Stack.Screen name="Community" component={CommunityScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

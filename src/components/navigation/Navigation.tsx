@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Platform, Image } from 'react-native';
 import { useNavigation, NavigationProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from './types';
-import { Heart, Search, User, MapPin, BookOpen, Bookmark, Users } from 'lucide-react';
+import { Home, BookOpen, GraduationCap, Menu } from 'lucide-react';
 import logo from '../../../assets/images/logo.png';
 
 type NavigationProps = {
@@ -18,10 +18,9 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
   };
 
   const navItems = [
-    { name: 'Home', route: 'Home', icon: (color: string) => <MapPin size={20} color={color} /> },
+    { name: 'Home', route: 'Home', icon: (color: string) => <Home size={20} color={color} /> },
     { name: 'Recipes', route: 'Recipe', icon: (color: string) => <BookOpen size={20} color={color} /> },
-    { name: 'Education Hub', route: 'Education Hub', icon: (color: string) => <Bookmark size={20} color={color} /> },
-    { name: 'Community', route: 'Community', icon: (color: string) => <Users size={20} color={color} /> },
+    { name: 'Education Hub', route: 'Education Hub', icon: (color: string) => <GraduationCap size={20} color={color} /> },
   ];
 
   const handleNavigation = (screen: keyof RootStackParamList) => {
@@ -32,7 +31,8 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
   if (Platform.OS === 'web') {
     return (
       <View style={styles.container}>
-        <View style={styles.navbar}>
+        {/* Floating navbar for web */}
+        <View style={styles.floatingNavbar}>
           <View style={styles.logoContainer}>
             <Image 
               source={logo}
@@ -43,49 +43,32 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
             <Text style={styles.logoText}>BudgetBites</Text>
           </View>
 
-          <View style={styles.navLinks}>
-            {navItems.map((item) => {
-              const isActive = isRouteActive(item.route);
-              const iconColor = isActive ? '#b7612c' : '#555';
+          <View style={styles.navLinksContainer}>
+            <View style={styles.navLinksBackground}>
+              <View style={styles.navLinks}>
+                {navItems.map((item) => {
+                  const isActive = isRouteActive(item.route);
+                  const iconColor = isActive ? '#ffffff' : '#d15e34';
 
-              return (
-                <TouchableOpacity 
-                  key={item.route} 
-                  style={[styles.navItem, isActive && styles.activeNavItem]}
-                  onPress={() => handleNavigation(item.route as any)}
-                >
-                  <View style={styles.navItemContent}>
-                    {item.icon(iconColor)}
-                    <Text style={[styles.link, isActive && styles.activeLink]}>{item.name}</Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-
-          <View style={styles.icons}>
-            <TouchableOpacity 
-              style={styles.iconButton}
-              accessibilityLabel="Favorites"
-            >
-              <Heart size={22} color="#b7612c" />
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.iconButton}
-              accessibilityLabel="Search"
-            >
-              <Search size={22} color="#555" />
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={[styles.iconButton, styles.profileButton]}
-              accessibilityLabel="User profile"
-            >
-              <User size={22} color="#555" />
-            </TouchableOpacity>
+                  return (
+                    <TouchableOpacity 
+                      key={item.route} 
+                      style={[styles.navItem, isActive && styles.activeNavItem]}
+                      onPress={() => handleNavigation(item.route as any)}
+                    >
+                      <View style={styles.navItemContent}>
+                        {item.icon(iconColor)}
+                        <Text style={[styles.link, isActive && styles.activeLink]}>{item.name}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
           </View>
         </View>
 
-        <View style={styles.webContent}>
+        <View style={styles.contentContainer}>
           {children}
         </View>
       </View>
@@ -106,36 +89,19 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
           <Text style={styles.logoText}>BudgetBites</Text>
         </View>
         
-        <View style={styles.icons}>
-          <TouchableOpacity 
-            style={styles.iconButton}
-            accessibilityLabel="Favorites"
-          >
-            <Heart size={22} color="#b7612c" />
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.iconButton}
-            accessibilityLabel="Search"
-          >
-            <Search size={22} color="#555" />
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={[styles.iconButton, styles.mobileProfileButton]}
-            accessibilityLabel="User profile"
-          >
-            <User size={22} color="#555" />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.mobileMenuButton}>
+          <Menu size={24} color="#d15e34" />
+        </TouchableOpacity>
       </View>
       
-      <View style={styles.content}>
+      <View style={styles.contentContainer}>
         {children}
       </View>
       
       <View style={styles.bottomBar}>
         {navItems.map((item) => {
           const isActive = isRouteActive(item.route);
-          const iconColor = isActive ? '#b7612c' : '#555';
+          const iconColor = isActive ? '#ffffff' : '#d15e34';
 
           return (
             <TouchableOpacity 
@@ -144,7 +110,7 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
                 styles.bottomNavItem,
                 isActive && styles.activeBottomNavItem
               ]}
-              onPress={() => handleNavigation(item.route as 'Home' | 'Recipe' | 'Education Hub' | 'Community' | 'Settings')}
+              onPress={() => handleNavigation(item.route as 'Home' | 'Recipe' | 'Education Hub')}
               accessibilityRole="button"
               accessibilityLabel={`Navigate to ${item.name}`}
               accessibilityState={{ selected: isActive }}
@@ -170,22 +136,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'transparent',
+    position: 'relative',
   },
-  navbar: {
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    backgroundColor: 'transparent',
+  floatingNavbar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    elevation: 4,
-    shadowColor: '#333',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f1dfbb',
-    height: 80,
+    position: 'absolute',
+    top: 20,
+    left: 0,
+    right: 0,
+    zIndex: 100,
+    paddingHorizontal: 24,
   },
   logoContainer: {
     flexDirection: 'row',
@@ -200,16 +162,29 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     fontFamily: Platform.OS === 'web' ? 'Poppins, sans-serif' : undefined,
-    color: '#b7612c',
+    color: '#d15e34',
   },
-  webContent: {
+  contentContainer: {
     flex: 1,
-    padding: 0,
+    backgroundColor: 'transparent',
+  },
+  navLinksContainer: {
+    alignItems: 'center',
+    pointerEvents: 'auto',
+  },
+  navLinksBackground: {
+    backgroundColor: 'rgb(254, 243, 227)',
+    borderRadius: 28,
+    padding: 6,
+    shadowColor: '#333',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   navLinks: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 20,
   },
   navItem: {
     paddingHorizontal: 16,
@@ -223,46 +198,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   activeNavItem: {
-    backgroundColor: 'rgba(183, 97, 44, 0.08)',
+    backgroundColor: '#d15e34',
   },
   link: {
     fontSize: 16,
-    color: '#555',
+    color: '#d15e34',
     fontWeight: '500',
     fontFamily: Platform.OS === 'web' ? 'Poppins, sans-serif' : undefined,
     marginLeft: 8,
   },
   activeLink: {
-    color: '#b7612c',
+    color: '#ffffff',
     fontWeight: '600',
   },
-  icons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  iconButton: {
-    padding: 10,
-    marginLeft: 12,
-    borderRadius: 50,
-    backgroundColor: 'transparent',
-  },
-  profileButton: {
-    backgroundColor: '#f1dfbb',
-    borderWidth: 1,
-    borderColor: '#eaeaea',
-  },
-  mobileProfileButton: {
-    backgroundColor: '#f1dfbb',
-    borderWidth: 1,
-    borderColor: '#eaeaea',
-    marginLeft: 8,
+  mobileMenuButton: {
+    padding: 8,
   },
   
   // Mobile styles
   topBar: {
     paddingVertical: 16,
     paddingHorizontal: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff9f3',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -276,13 +233,12 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f1dfbb',
+    borderBottomWidth: 0,
   },
   bottomBar: {
     paddingVertical: 12,
     paddingHorizontal: 12,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(254, 243, 227, 0.9)',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -296,7 +252,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     borderTopWidth: 1,
-    borderTopColor: '#f1dfbb',
+    borderTopColor: 'rgba(209, 94, 52, 0.15)',
     height: 70,
   },
   bottomNavItem: {
@@ -306,7 +262,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   activeBottomNavItem: {
-    backgroundColor: 'rgba(183, 97, 44, 0.06)',
+    backgroundColor: '#d15e34',
     borderRadius: 8,
     marginHorizontal: 4,
     paddingVertical: 8,
@@ -314,18 +270,11 @@ const styles = StyleSheet.create({
   bottomNavText: {
     fontSize: 12,
     marginTop: 4,
-    color: '#555',
+    color: '#d15e34',
     fontFamily: Platform.OS === 'web' ? 'Poppins, sans-serif' : undefined,
   },
   activeBottomNavText: {
-    color: '#b7612c',
+    color: '#ffffff',
     fontWeight: '600',
-  },
-  content: {
-    flex: 1,
-    marginTop: 70,
-    marginBottom: 70,
-    paddingHorizontal: 20,
-    backgroundColor: '#fffaf0',
   },
 });

@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   
   // Hero Section
   heroPattern: {
-    paddingVertical: 100,
+    paddingVertical: 130,
     paddingHorizontal: 20,
     alignItems: 'center',
     backgroundColor: '#e5fcf1',
@@ -489,4 +489,4 @@ const styles = StyleSheet.create({
   },
 });
 
-  export default styles;
+export default styles;
