@@ -18,6 +18,7 @@
     "@supabase/supabase-js": "^2.49.4",
     "expo": "~53.0.9",
     "expo-image-picker": "^16.1.4",
+    "expo-linear-gradient": "^14.1.4",
     "expo-status-bar": "~2.2.3",
     "lucide-react": "^0.508.0",
     "lucide-react-native": "^0.510.0",

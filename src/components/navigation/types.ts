@@ -2,6 +2,7 @@ export type RootStackParamList = {
   Home: undefined;
   Recipe: undefined;
   'Education Hub': undefined;
-  Community: undefined;
-  Settings: undefined;
+  'Find Help': undefined;
+  // Community: undefined;
+  // Settings: undefined;
 };

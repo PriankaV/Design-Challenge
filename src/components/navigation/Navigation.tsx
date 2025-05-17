@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Platform, Image } from 'react-native';
 import { useNavigation, NavigationProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from './types';
-import { Home, BookOpen, GraduationCap, Menu } from 'lucide-react';
+import { Home, BookOpen, GraduationCap, Lightbulb, Menu } from 'lucide-react';
 import logo from '../../../assets/images/logo.png';
 
 type NavigationProps = {
@@ -21,6 +21,7 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
     { name: 'Home', route: 'Home', icon: (color: string) => <Home size={20} color={color} /> },
     { name: 'Recipes', route: 'Recipe', icon: (color: string) => <BookOpen size={20} color={color} /> },
     { name: 'Education Hub', route: 'Education Hub', icon: (color: string) => <GraduationCap size={20} color={color} /> },
+    { name: 'Find Help', route: 'Find Help', icon: (color: string) => <Lightbulb size={20} color={color} /> },
   ];
 
   const handleNavigation = (screen: keyof RootStackParamList) => {

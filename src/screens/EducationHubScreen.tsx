@@ -1,31 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  SafeAreaView,
-  FlatList,
-  Dimensions,
-  TouchableOpacity,
-  Animated,
-  AccessibilityInfo,
-  Image,
-} from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, FlatList, TouchableOpacity, Animated, AccessibilityInfo, Image } from 'react-native';
 import Navigation from '../components/navigation/Navigation';
-import { 
-  Book, 
-  Utensils, 
-  PiggyBank, 
-  Droplet, 
-  Recycle, 
-  Info, 
-  Video, 
-  Play, 
-  ShoppingBag 
-} from 'lucide-react';
+import { Utensils, PiggyBank, Droplet, Recycle, Info, Video, Play, ShoppingBag } from 'lucide-react';
 import { ImageBackground } from 'react-native';
-
+import styles from '../styles/EducationHub';
+import { LinearGradient } from 'expo-linear-gradient';
 // Fun facts about food waste and conservation
 const funFacts = [
   { id: '1', fact: 'Did you know? Nearly 1/3 of all food produced globally is wasted each year.' },
@@ -311,20 +290,25 @@ const EducationHubScreen = () => {
       <Navigation>
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 100 }} showsVerticalScrollIndicator={false}>
           {/* Hero Section */}
-          <ImageBackground
-            source={require('../../assets/images/edu-background.jpg')}
-            style={styles.heroPattern}
-            resizeMode="cover"
-          >
-            <View style={styles.heroContainer}>
+          <View style={styles.heroWrapper}>
+            <ImageBackground
+              source={require('../../assets/images/img.png')}
+              style={styles.heroPattern}
+              resizeMode="cover"
+            >
+              <LinearGradient
+                colors={['transparent', '#fff']}
+                style={styles.gradientOverlay}
+                pointerEvents="none"
+              />
               <View style={styles.heroContent}>
                 <Text style={styles.heroTitle}>Food & Resource Savings Guide</Text>
                 <Text style={styles.heroSubtitle}>
                   Simple, practical ways to reduce waste, save money, and make the most of what you have
                 </Text>
               </View>
-            </View>
-          </ImageBackground>
+            </ImageBackground>
+          </View>
 
           {/* Tabs Navigation */}
           <View style={styles.tabsContainer}>
@@ -384,259 +368,5 @@ const EducationHubScreen = () => {
     </SafeAreaView>
   );
 };
-
-const { width } = Dimensions.get('window');
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  container: {
-    flex: 1,
-  },
-  // Hero Section
-  heroPattern: {
-    paddingVertical: 80,
-    alignItems: 'center',
-    position: 'relative',
-    width: '100%',
-    justifyContent: 'center',
-  },
-  heroContainer: {
-    width: '100%',
-    alignItems: 'center',
-  },
-  heroContent: {
-    alignItems: 'center',
-    paddingHorizontal: 24,
-    maxWidth: 800,
-  },
-  heroTitle: {
-    fontSize: 42,
-    fontWeight: 'bold',
-    color: '#111827',
-    textAlign: 'center',
-    marginBottom: 12,
-  },
-  heroSubtitle: {
-    fontSize: 20,
-    color: '#4b5563',
-    textAlign: 'center',
-    marginBottom: 24,
-    lineHeight: 28,
-  },
-  // Tabs navigation
-  tabsContainer: {
-    paddingVertical: 16,
-    backgroundColor: '#fff',
-    alignItems: 'center'
-  },
-  tabsScrollContainer: {
-    paddingHorizontal: 16,
-  },
-  tabButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginRight: 8,
-    borderRadius: 8,
-    backgroundColor: '#f3f4f6',
-  },
-  activeTabButton: {
-    backgroundColor: '#e5fcf1',
-  },
-  tabContent: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tabLabel: {
-    marginTop: 4,
-    fontSize: 12,
-    fontWeight: '500',
-    color: '#64748b',
-  },
-  activeTabLabel: {
-    color: '#10b981',
-    fontWeight: '600',
-  },
-  // Fun Facts Carousel
-  funFactContainer: {
-    backgroundColor: '#E8F5E9',
-    padding: 16,
-    marginHorizontal: 20,
-    marginVertical: 12,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#C8E6C9',
-  },
-  funFactHeader: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#10b981',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  funFactContent: {
-    alignItems: 'center',
-    minHeight: 60,
-    justifyContent: 'center',
-  },
-  funFactText: {
-    fontSize: 14,
-    color: '#4b5563',
-    lineHeight: 20,
-    textAlign: 'center',
-  },
-  dotContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 8,
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: '#A5D6A7',
-    marginHorizontal: 3,
-  },
-  activeDot: {
-    backgroundColor: '#10b981',
-    width: 12,
-  },
-  // Section styling
-  section: {
-    marginBottom: 24,
-    paddingHorizontal: 20,
-  },
-  sectionHeaderContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-    marginTop: 8,
-  },
-  sectionTitleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  sectionIcon: {
-    marginRight: 10,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#10b981',
-    marginLeft: 10,
-  },
-  // Cards
-  cardList: {
-    paddingVertical: 10,
-    paddingBottom: 16,
-  },
-  card: {
-    width: width * 0.8,
-    maxWidth: 380,
-    marginRight: 16,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 2,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-  },
-  cardContent: {
-    padding: 16,
-  },
-  cardTitle: {
-    fontSize: 17,
-    fontWeight: '600',
-    marginBottom: 6,
-    color: '#2C3E50',
-  },
-  cardText: {
-    fontSize: 14,
-    color: '#546E7A',
-    lineHeight: 20,
-    marginBottom: 12,
-  },
-  featureTag: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 10,
-    alignSelf: 'flex-start',
-    marginBottom: 6,
-  },
-  featureTagText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '500',
-    marginLeft: 4,
-  },
-  learnMoreButton: {
-    paddingVertical: 10,
-    alignItems: 'center',
-    borderRadius: 8,
-    marginTop: 8,
-  },
-  learnMoreText: {
-    fontWeight: '600',
-    fontSize: 14,
-    color: '#fff',
-  },
-  // YouTube Videos Section
-  videoList: {
-    paddingVertical: 10,
-  },
-  videoCard: {
-    width: width * 0.8,
-    maxWidth: 380,
-    marginRight: 16,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 2,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-  },
-  videoThumbnail: {
-    width: '100%',
-    height: 180,
-  },
-  playButton: {
-    position: 'absolute',
-    top: '25%',
-    left: '45%',
-    backgroundColor: 'rgba(255, 0, 0, 0.8)',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  videoContent: {
-    padding: 12,
-  },
-  videoTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
-    color: '#2C3E50',
-  },
-  videoChannel: {
-    fontSize: 14,
-    color: '#7F8C8D',
-  }
-});
 
 export default EducationHubScreen;
