@@ -448,9 +448,7 @@ const EducationHubScreen = () => {
               <View style={styles.sectionHeaderContainer}>
                 <View style={styles.sectionTitleContainer}>
                   {renderIcon(section.icon, 22, section.color)}
-                  <Text style={[styles.sectionTitle, { color: section.color }]}>
-                    {section.title}
-                  </Text>
+                  <Text style={[styles.sectionTitle, { color: section.color }]}> {section.title} </Text>
                 </View>
               </View>
 
@@ -482,11 +480,40 @@ const EducationHubScreen = () => {
               />
             </View>
           ))}
+
+          {/* Fun Facts Carousel */}
+          <View style={styles.funFactContainer}>
+            <Text style={styles.funFactHeader}>Did You Know?</Text>
+            <Animated.View style={[styles.funFactContent, { opacity: fadeAnim }]}>
+              <Text style={styles.funFactText}>{funFacts[currentFactIndex].fact}</Text>
+            </Animated.View>
+            <View style={styles.dotContainer}>
+              {funFacts.map((_, index) => (
+                <View
+                  key={index}
+                  style={[styles.dot, currentFactIndex === index ? styles.activeDot : {}]}
+                />
+              ))}
+            </View>
+          </View>
+
+          {/* YouTube Videos Section */}
+          <View style={styles.section}>
+            {renderSectionHeader('Helpful Videos', 'video', '#FF0000')}
+            <FlatList
+              data={youtubeVideos}
+              horizontal
+              keyExtractor={(item) => item.id}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.videoList}
+              renderItem={renderYoutubeVideo}
+              accessibilityLabel="YouTube food education videos"
+            />
+          </View>
         </ScrollView>
       </Navigation>
     </SafeAreaView>
   );
-};
 
 export default EducationHubScreen;
 
