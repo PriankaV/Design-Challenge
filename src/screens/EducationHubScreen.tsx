@@ -5,7 +5,90 @@ import { Utensils, PiggyBank, Droplet, Recycle, Info, Video, Play, ShoppingBag }
 import { ImageBackground } from 'react-native';
 import styles from '../styles/EducationHub';
 import { LinearGradient } from 'expo-linear-gradient';
-// Fun facts about food waste and conservation
+import { Linking } from 'react-native';
+
+
+const renderIcon = (iconName, size, color) => {
+  switch (iconName) {
+    case 'piggy-bank':
+      return <PiggyBank size={size} color={color} />;
+    case 'utensils':
+      return <Utensils size={size} color={color} />;
+    case 'droplet':
+      return <Droplet size={size} color={color} />;
+    case 'recycle':
+      return <Recycle size={size} color={color} />;
+    case 'shopping-bag':
+      return <ShoppingBag size={size} color={color} />;
+    case 'video':
+      return <Video size={size} color={color} />;
+    case 'play':
+      return <Play size={size} color={color} />;
+    case 'info':
+      return <Info size={size} color={color} />;
+    default:
+      return <Info size={size} color={color} />;
+  }
+};
+
+const renderYoutubeVideo = ({ item }) => (
+  <TouchableOpacity onPress={() => Linking.openURL(item.link)}>
+    <View style={styles.videoCard}>
+      <Image
+        source={{ uri: item.thumbnail }}
+        style={styles.videoThumbnail}
+        accessibilityLabel={`Thumbnail for ${item.title}`}
+      />
+      <View style={styles.playButton}>{renderIcon('play', 20, '#fff')}</View>
+      <View style={styles.videoContent}>
+        <Text style={styles.videoTitle}>{item.title}</Text>
+        <Text style={styles.videoChannel}>{item.channel}</Text>
+      </View>
+    </View>
+  </TouchableOpacity>
+);
+
+const renderCard = ({ item, sectionColor }) => (
+  <TouchableOpacity
+    style={styles.card}
+    onPress={() => {
+      if (item.videoLink) {
+        Linking.openURL(item.videoLink).catch(err =>
+          console.error("Failed to open URL:", err)
+        );
+      } else {
+        console.warn("No videoLink found");
+      }
+    }}
+    accessibilityRole="button"
+  >
+    <View style={styles.cardContent}>
+      <Text style={styles.cardTitle}>{item.title}</Text>
+      <Text style={styles.cardText}>{item.description}</Text>
+
+      {item.videoLink && (
+        <View style={[styles.featureTag, { backgroundColor: sectionColor }]}>
+          {renderIcon('video', 12, '#fff')}
+          <Text style={styles.featureTagText}>Video Tutorial</Text>
+        </View>
+      )}
+
+      {item.extraInfo && (
+        <View style={[styles.featureTag, { backgroundColor: sectionColor }]}>
+          {renderIcon('info', 12, '#fff')}
+          <Text style={styles.featureTagText}>{item.extraInfo}</Text>
+        </View>
+      )}
+
+      <View style={[styles.learnMoreButton, { backgroundColor: sectionColor }]}>
+        <Text style={styles.learnMoreText}>Learn More</Text>
+      </View>
+    </View>
+  </TouchableOpacity>
+);
+
+
+
 const funFacts = [
   { id: '1', fact: 'Did you know? Nearly 1/3 of all food produced globally is wasted each year.' },
   { id: '2', fact: 'Storing potatoes and onions separately makes them both last longer!' },
@@ -14,15 +97,14 @@ const funFacts = [
   { id: '5', fact: 'A family of four can save about $1,500 per year by reducing their food waste.' },
 ];
 
-// Define consistent interface for content items
 export interface ContentItem {
   title: string;
   description: string;
   videoLink?: string;
   extraInfo?: string;
+  thumbnail?: string;
 }
 
-// Interface for categories
 export interface Category {
   title: string;
   icon: string;
@@ -30,26 +112,55 @@ export interface Category {
   data: ContentItem[];
 }
 
-// Updated categories focused on food accessibility, affordability, and waste reduction
 const categories: Category[] = [
   {
     title: 'Save Money & Food',
     icon: 'piggy-bank',
     color: '#10b981',
     data: [
-      { title: 'Stretch Your Dollar', description: 'Simple tips to make your groceries last longer and feed more with less.', videoLink: 'budget-meals.mp4' },
-      { title: 'No-Waste Cooking', description: 'Use vegetable scraps, bones, and leftovers to create delicious new meals.', videoLink: 'no-waste.mp4' },
-      { title: 'Simple Storage Hacks', description: 'Extend food life with everyday containers and items you already have.', videoLink: 'storage.mp4' },
+      {
+        title: 'Stretch Your Dollar',
+        description: 'Simple tips to make your groceries last longer and feed more with less.',
+        videoLink: 'https://www.youtube.com/watch?v=exB0vDYYpyw',
+        thumbnail: 'https://img.youtube.com/vi/exB0vDYYpyw/hqdefault.jpg'
+      },
+      {
+        title: 'No-Waste Cooking',
+        description: 'Use vegetable scraps, bones, and leftovers to create delicious new meals.',
+        videoLink: 'https://www.youtube.com/watch?v=Q9FLXvH7PLw',
+        thumbnail: 'https://img.youtube.com/vi/Q9FLXvH7PLw/hqdefault.jpg'
+      },
+      {
+        title: 'Simple Storage Hacks',
+        description: 'Extend food life with everyday containers and items you already have.',
+        videoLink: 'https://www.youtube.com/watch?v=_tk1whODlyA',
+        thumbnail: 'https://img.youtube.com/vi/_tk1whODlyA/hqdefault.jpg'
+      },
     ],
   },
   {
     title: 'Quick & Easy Meals',
     icon: 'utensils',
-    color: '#10b981',
+    color: '#f97316',
     data: [
-      { title: '5-Ingredient Meals', description: 'Healthy, filling recipes using just a few affordable ingredients.', videoLink: '5-ingredient.mp4' },
-      { title: 'One-Pot Wonders', description: 'Save time, energy, and water with complete meals in one pot.', videoLink: 'one-pot.mp4' },
-      { title: 'Pantry Meals', description: 'Delicious meals using only shelf-stable ingredients.', videoLink: 'pantry.mp4' },
+      {
+        title: '5-Ingredient Meals',
+        description: 'Healthy, filling recipes using just a few affordable ingredients.',
+        videoLink: 'https://www.youtube.com/watch?v=VIWfhx4DJhw',
+        thumbnail: 'https://img.youtube.com/vi/VIWfhx4DJhw/hqdefault.jpg'
+      },
+      {
+        title: 'One-Pot Wonders',
+        description: 'Save time, energy, and water with complete meals in one pot.',
+        videoLink: 'https://www.youtube.com/watch?v=7TM7fOWtzzk',
+        thumbnail: 'https://img.youtube.com/vi/7TM7fOWtzzk/hqdefault.jpg'
+      },
+      {
+        title: 'Pantry Meals',
+        description: 'Delicious meals using only shelf-stable ingredients.',
+        videoLink: 'https://www.youtube.com/watch?v=F4xdv-mSasI',
+        thumbnail: 'https://img.youtube.com/vi/F4xdv-mSasI/hqdefault.jpg'
+      },
     ],
   },
   {
@@ -57,19 +168,49 @@ const categories: Category[] = [
     icon: 'droplet',
     color: '#3b82f6',
     data: [
-      { title: 'Daily Water Saving', description: 'Simple habits to reduce water usage throughout your home.', extraInfo: 'Save up to $20/month' },
-      { title: 'Kitchen Water Hacks', description: 'Creative ways to reuse water from cooking and cleaning.', extraInfo: 'Good for plants too!' },
-      { title: 'Fix Leaky Faucets', description: 'How to identify and fix common household water leaks.', videoLink: 'diy-fixes.mp4' },
+      {
+        title: 'Daily Water Saving',
+        description: 'Simple habits to reduce water usage throughout your home.',
+        videoLink: 'https://www.youtube.com/watch?v=nTcFXJT0Fsc',
+        thumbnail: 'https://img.youtube.com/vi/nTcFXJT0Fsc/hqdefault.jpg'
+      },
+      {
+        title: 'Kitchen Water Hacks',
+        description: 'Creative ways to reuse water from cooking and cleaning.',
+        videoLink: 'https://www.youtube.com/watch?v=joVL70wtLAs',
+        thumbnail: 'https://img.youtube.com/vi/joVL70wtLAs/hqdefault.jpg'
+      },
+      {
+        title: 'Fix Leaky Faucets',
+        description: 'How to identify and fix common household water leaks.',
+        videoLink: 'https://www.youtube.com/watch?v=SYPFon69vKs',
+        thumbnail: 'https://img.youtube.com/vi/SYPFon69vKs/hqdefault.jpg'
+      },
     ],
   },
   {
     title: 'Waste Reduction',
     icon: 'recycle',
-    color: '#10b981',
+    color: '#6b7280',
     data: [
-      { title: 'Composting Basics', description: 'Turn food scraps into garden gold with simple composting.', videoLink: 'composting.mp4' },
-      { title: 'Reuse Containers', description: 'Creative ways to give food packaging a second life.', extraInfo: 'Zero-waste tips' },
-      { title: 'Recycle Right', description: 'Common mistakes when recycling and how to avoid them.', extraInfo: 'Local guidelines' },
+      {
+        title: 'Composting Basics',
+        description: 'Turn food scraps into garden gold with simple composting.',
+        videoLink: 'https://www.youtube.com/watch?v=6Ti5g-AZiTs',
+        thumbnail: 'https://img.youtube.com/vi/6Ti5g-AZiTs/hqdefault.jpg'
+      },
+      {
+        title: 'Reuse Containers',
+        description: 'Creative ways to give food packaging a second life.',
+        videoLink: 'https://www.youtube.com/watch?v=0UMmG_sYKsI',
+        thumbnail: 'https://img.youtube.com/vi/0UMmG_sYKsI/hqdefault.jpg'
+      },
+      {
+        title: 'Recycle Right',
+        description: 'Common mistakes when recycling and how to avoid them.',
+        videoLink: 'https://www.youtube.com/watch?v=8MjH6zJbDds',
+        thumbnail: 'https://img.youtube.com/vi/8MjH6zJbDds/hqdefault.jpg'
+      },
     ],
   },
   {
@@ -77,9 +218,49 @@ const categories: Category[] = [
     icon: 'shopping-bag',
     color: '#8b5cf6',
     data: [
-      { title: 'Budget Shopping', description: 'Strategic approaches to grocery shopping on a budget.', extraInfo: 'Meal planning included' },
-      { title: 'Seasonal Buying Guide', description: 'Save by knowing when produce is in season and cheapest.', extraInfo: 'Monthly calendar' },
-      { title: 'Bulk Buying Tips', description: 'When bulk buying saves money and when it creates waste.', videoLink: 'bulk-buying.mp4' },
+      {
+        title: 'Budget Shopping',
+        description: 'Strategic approaches to grocery shopping on a budget.',
+        videoLink: 'https://www.youtube.com/watch?v=R1jaSf2vkH8',
+        thumbnail: 'https://img.youtube.com/vi/R1jaSf2vkH8/hqdefault.jpg'
+      },
+      {
+        title: 'Seasonal Buying Guide',
+        description: 'Save by knowing when produce is in season and cheapest.',
+        videoLink: 'https://www.youtube.com/watch?v=8dwcfew8XoY',
+        thumbnail: 'https://img.youtube.com/vi/8dwcfew8XoY/hqdefault.jpg'
+      },
+      {
+        title: 'Bulk Buying Tips',
+        description: 'When bulk buying saves money and when it creates waste.',
+        videoLink: 'https://www.youtube.com/watch?v=czcbYXLhC_A',
+        thumbnail: 'https://img.youtube.com/vi/czcbYXLhC_A/hqdefault.jpg'
+      },
+    ],
+  },
+  {
+    title: 'Eating Healthy',
+    icon: 'utensils',
+    color: '#f59e0b',
+    data: [
+      {
+        title: 'Understanding Macros',
+        description: 'Learn the basics of protein, carbs, and fats.',
+        videoLink: 'https://www.youtube.com/watch?v=QEMbT4C-5IM',
+        thumbnail: 'https://img.youtube.com/vi/QEMbT4C-5IM/hqdefault.jpg'
+      },
+      {
+        title: 'Balanced Plates',
+        description: 'How to build nutritious meals for energy and health.',
+        videoLink: 'https://www.youtube.com/watch?v=LYBOmHSTriY',
+        thumbnail: 'https://img.youtube.com/vi/LYBOmHSTriY/hqdefault.jpg'
+      },
+      {
+        title: 'Healthy Snacking',
+        description: 'Smart snack choices to fuel your day.',
+        videoLink: 'https://www.youtube.com/watch?v=5LmkBHWtcbQ',
+        thumbnail: 'https://img.youtube.com/vi/5LmkBHWtcbQ/hqdefault.jpg'
+      },
     ],
   },
 ];
