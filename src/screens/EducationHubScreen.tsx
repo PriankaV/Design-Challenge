@@ -387,133 +387,143 @@ const EducationHubScreen = () => {
     </TouchableOpacity>
   );
 
+  const renderSectionHeader = (title, icon, color) => (
+  <View style={styles.sectionHeaderContainer}>
+    <View style={styles.sectionTitleContainer}>
+      {renderIcon(icon, 22, color)}
+      <Text style={[styles.sectionTitle, { color }]}>{title}</Text>
+    </View>
+  </View>
+);
+
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <Navigation>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={{ paddingBottom: 100 }}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Hero Section */}
-          <View style={styles.heroWrapper}>
-            <ImageBackground
-              source={require('../../assets/images/img.png')}
-              style={styles.heroPattern}
-              resizeMode="cover"
-            >
-              <LinearGradient
-                colors={['transparent', '#fff']}
-                style={styles.gradientOverlay}
-                pointerEvents="none"
-              />
-              <View style={styles.heroContent}>
-                <Text style={styles.heroTitle}>Food & Resource Savings Guide</Text>
-                <Text style={styles.heroSubtitle}>
-                  Simple, practical ways to reduce waste, save money, and make the most of what you have
-                </Text>
-              </View>
-            </ImageBackground>
-          </View>
-
-          {/* Search Bar */}
-          <View style={styles.searchContainer}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search tips..."
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-              accessibilityLabel="Search for tips"
+  <SafeAreaView style={styles.safeArea}>
+    <Navigation>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Hero Section */}
+        <View style={styles.heroWrapper}>
+          <ImageBackground
+            source={require('../../assets/images/img.png')}
+            style={styles.heroPattern}
+            resizeMode="cover"
+          >
+            <LinearGradient
+              colors={['transparent', '#fff']}
+              style={styles.gradientOverlay}
+              pointerEvents="none"
             />
-          </View>
+            <View style={styles.heroContent}>
+              <Text style={styles.heroTitle}>Food & Resource Savings Guide</Text>
+              <Text style={styles.heroSubtitle}>
+                Simple, practical ways to reduce waste, save money, and make the most of what you have
+              </Text>
+            </View>
+          </ImageBackground>
+        </View>
 
-          {/* Tabs Navigation */}
-          <View style={styles.tabsContainer}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.tabsScrollContainer}
-            >
-              {renderTabButton('all', 'All Tips', 'book')}
-              {renderTabButton('food', 'Food', 'utensils')}
-              {renderTabButton('water', 'Water', 'droplet')}
-              {renderTabButton('waste', 'Waste', 'recycle')}
-              {renderTabButton('shopping', 'Shopping', 'shopping-bag')}
-            </ScrollView>
-          </View>
+        {/* Search Bar */}
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search tips..."
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            accessibilityLabel="Search for tips"
+          />
+        </View>
 
-          {/* Filtered Categories */}
-          {getFilteredCategories().map((section) => (
-            <View key={section.title} style={styles.section}>
-              <View style={styles.sectionHeaderContainer}>
-                <View style={styles.sectionTitleContainer}>
-                  {renderIcon(section.icon, 22, section.color)}
-                  <Text style={[styles.sectionTitle, { color: section.color }]}> {section.title} </Text>
-                </View>
+        {/* Tabs Navigation */}
+        <View style={styles.tabsContainer}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.tabsScrollContainer}
+          >
+            {renderTabButton('all', 'All Tips', 'book')}
+            {renderTabButton('food', 'Food', 'utensils')}
+            {renderTabButton('water', 'Water', 'droplet')}
+            {renderTabButton('waste', 'Waste', 'recycle')}
+            {renderTabButton('shopping', 'Shopping', 'shopping-bag')}
+          </ScrollView>
+        </View>
+
+        {/* Filtered Categories */}
+        {getFilteredCategories().map((section) => (
+          <View key={section.title} style={styles.section}>
+            <View style={styles.sectionHeaderContainer}>
+              <View style={styles.sectionTitleContainer}>
+                {renderIcon(section.icon, 22, section.color)}
+                <Text style={[styles.sectionTitle, { color: section.color }]}> {section.title} </Text>
               </View>
-
-              <FlatList
-                data={section.data}
-                horizontal
-                keyExtractor={(item) => item.title}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.cardList}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={styles.card}
-                    onPress={() =>
-                      item.videoLink &&
-                      (Platform.OS === 'web'
-                        ? window.open(item.videoLink, '_blank')
-                        : Linking.openURL(item.videoLink))
-                    }
-                  >
-                    <View style={styles.cardContent}>
-                      <Text style={styles.cardTitle}>{item.title}</Text>
-                      <Text style={styles.cardText}>{item.description}</Text>
-                      <View style={[styles.learnMoreButton, { backgroundColor: section.color }]}>
-                        <Text style={styles.learnMoreText}>Learn More</Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                )}
-              />
             </View>
-          ))}
 
-          {/* Fun Facts Carousel */}
-          <View style={styles.funFactContainer}>
-            <Text style={styles.funFactHeader}>Did You Know?</Text>
-            <Animated.View style={[styles.funFactContent, { opacity: fadeAnim }]}>
-              <Text style={styles.funFactText}>{funFacts[currentFactIndex].fact}</Text>
-            </Animated.View>
-            <View style={styles.dotContainer}>
-              {funFacts.map((_, index) => (
-                <View
-                  key={index}
-                  style={[styles.dot, currentFactIndex === index ? styles.activeDot : {}]}
-                />
-              ))}
-            </View>
-          </View>
-
-          {/* YouTube Videos Section */}
-          <View style={styles.section}>
-            {renderSectionHeader('Helpful Videos', 'video', '#FF0000')}
             <FlatList
-              data={youtubeVideos}
+              data={section.data}
               horizontal
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.title}
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.videoList}
-              renderItem={renderYoutubeVideo}
-              accessibilityLabel="YouTube food education videos"
+              contentContainerStyle={styles.cardList}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.card}
+                  onPress={() =>
+                    item.videoLink &&
+                    (Platform.OS === 'web'
+                      ? window.open(item.videoLink, '_blank')
+                      : Linking.openURL(item.videoLink))
+                  }
+                >
+                  <View style={styles.cardContent}>
+                    <Text style={styles.cardTitle}>{item.title}</Text>
+                    <Text style={styles.cardText}>{item.description}</Text>
+                    <View style={[styles.learnMoreButton, { backgroundColor: section.color }]}>
+                      <Text style={styles.learnMoreText}>Learn More</Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              )}
             />
           </View>
-        </ScrollView>
-      </Navigation>
-    </SafeAreaView>
-  );
+        ))}
+
+        {/* Fun Facts Carousel */}
+        <View style={styles.funFactContainer}>
+          <Text style={styles.funFactHeader}>Did You Know?</Text>
+          <Animated.View style={[styles.funFactContent, { opacity: fadeAnim }]}>
+            <Text style={styles.funFactText}>{funFacts[currentFactIndex].fact}</Text>
+          </Animated.View>
+          <View style={styles.dotContainer}>
+            {funFacts.map((_, index) => (
+              <View
+                key={index}
+                style={[styles.dot, currentFactIndex === index ? styles.activeDot : {}]}
+              />
+            ))}
+          </View>
+        </View>
+
+        {/* YouTube Videos Section */}
+        <View style={styles.section}>
+          {renderSectionHeader('Helpful Videos', 'video', '#FF0000')}
+          <FlatList
+            data={youtubeVideos}
+            horizontal
+            keyExtractor={(item) => item.id}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.videoList}
+            renderItem={renderYoutubeVideo}
+            accessibilityLabel="YouTube food education videos"
+          />
+        </View>
+      </ScrollView>
+    </Navigation>
+  </SafeAreaView>
+);
+};
 
 export default EducationHubScreen;
 
