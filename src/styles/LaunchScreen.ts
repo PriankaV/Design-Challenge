@@ -286,14 +286,15 @@ const styles = StyleSheet.create({
   
   // Search Column
   searchColumn: {
-    flex: 1,
+    flex: 0.9,
     borderRightWidth: 1,
     borderRightColor: '#e5e7eb',
     backgroundColor: '#fff',
     minWidth: 300,
+    maxWidth: 400,
   },
   searchHeader: {
-    padding: 24,
+    padding: 16,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#e5e7eb',
@@ -362,6 +363,44 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   
+  // Locations Control
+  locationsControlContainer: {
+    padding: 16,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e7eb',
+    backgroundColor: '#f9fafb',
+    alignItems: 'center',
+  },
+  locationsControlText: {
+    fontSize: 14,
+    color: '#4b5563',
+    marginBottom: 10,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  locationsControlButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  locationsControlButton: {
+    backgroundColor: '#10b981',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    minWidth: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  locationsControlButtonDisabled: {
+    backgroundColor: '#9ca3af',
+  },
+  locationsControlButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  
   // Results List
   resultsList: {
     flex: 1,
@@ -369,9 +408,9 @@ const styles = StyleSheet.create({
   },
   resultCard: {
     backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 20,
-    marginBottom: 16,
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
@@ -393,7 +432,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 8,
   },
   resultCardTitleContainer: {
     flexDirection: 'row',
@@ -401,7 +440,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   resultCardTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
     color: '#111827',
   },
@@ -419,17 +458,26 @@ const styles = StyleSheet.create({
     color: '#4b5563',
   },
   resultCardDetails: {
-    marginBottom: 16,
+    marginBottom: 8,
   },
   resultCardDetail: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 4,
   },
   resultCardDetailText: {
-    marginLeft: 8,
-    fontSize: 15,
+    marginLeft: 6,
+    fontSize: 13,
     color: '#4b5563',
+    flexShrink: 1,
+  },
+  
+  // Contact and State
+  contactStateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   
   // Tags
@@ -446,6 +494,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e5e7eb',
   },
+  inlineTag: {
+    backgroundColor: '#f3f4f6',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    marginLeft: 8,
+  },
   tagText: {
     fontSize: 12,
     color: '#4b5563',
@@ -454,9 +511,10 @@ const styles = StyleSheet.create({
   
   // Map Column
   mapColumn: {
-    flex: 1.5,
+    flex: 1.8,
     backgroundColor: '#f9fafb',
-    minWidth: 400,
+    minWidth: 420,
+    display: 'flex',
   },
   mapHeader: {
     padding: 24,
@@ -476,7 +534,9 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     margin: 20,
-    height: 500,
+    flex: 1,
+    height: '70%',
+    minHeight: 450,
     borderRadius: 16,
     overflow: 'hidden',
     shadowColor: '#000',

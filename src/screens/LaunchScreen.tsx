@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Animated, ScrollView } from 'react-native';
-import { Search, MapPin, Filter } from 'lucide-react';
+import { Search, MapPin, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
 
@@ -36,6 +36,8 @@ const LaunchScreen = () => {
   const [location, setLocation] = useState('');
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const locationsPerPage = 5; // Fixed at 5 locations per page
 
   // Pulse animation
   useEffect(() => {
@@ -211,7 +213,7 @@ const LaunchScreen = () => {
               </View>
 
               <ScrollView style={styles.resultsList}>
-                {filteredSources.map((bank) => (
+                {filteredSources.slice(currentPage * locationsPerPage, (currentPage + 1) * locationsPerPage).map((bank) => (
                   <TouchableOpacity
                     key={bank.Name}
                     style={[
@@ -234,18 +236,42 @@ const LaunchScreen = () => {
                         </Text>
                       </View>
                       <View style={styles.resultCardDetail}>
-                        <Text style={styles.resultCardDetailText}>{bank.Contact}</Text>
-                      </View>
-                    </View>
-
-                    <View style={styles.tagsContainer}>
-                      <View style={styles.tag}>
-                        <Text style={styles.tagText}>{bank.State}</Text>
+                        <View style={styles.contactStateContainer}>
+                          <Text style={styles.resultCardDetailText}>{bank.Contact}</Text>
+                          <View style={styles.inlineTag}>
+                            <Text style={styles.tagText}>{bank.State}</Text>
+                          </View>
+                        </View>
                       </View>
                     </View>
                   </TouchableOpacity>
                 ))}
               </ScrollView>
+
+              <View style={styles.locationsControlContainer}>
+                <Text style={styles.locationsControlText}>
+                  {filteredSources.length > 0 ? 
+                    `Showing ${currentPage * locationsPerPage + 1}-${Math.min((currentPage + 1) * locationsPerPage, filteredSources.length)} out of ${filteredSources.length} locations` : 
+                    'No locations found'}
+                  {filteredSources.length > 0 ? ` (Page ${currentPage + 1} of ${Math.ceil(filteredSources.length / locationsPerPage)})` : ''}
+                </Text>
+                <View style={styles.locationsControlButtons}>
+                  <TouchableOpacity 
+                    style={[styles.locationsControlButton, currentPage === 0 ? styles.locationsControlButtonDisabled : {}]} 
+                    onPress={() => setCurrentPage(prev => Math.max(0, prev - 1))}
+                    disabled={currentPage === 0}
+                  >
+                    <ChevronLeft size={20} color="#fff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+                    style={[styles.locationsControlButton, (currentPage + 1) * locationsPerPage >= filteredSources.length ? styles.locationsControlButtonDisabled : {}]} 
+                    onPress={() => setCurrentPage(prev => (prev + 1) * locationsPerPage < filteredSources.length ? prev + 1 : prev)}
+                    disabled={(currentPage + 1) * locationsPerPage >= filteredSources.length}
+                  >
+                    <ChevronRight size={20} color="#fff" />
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
 
             {/* Right Column */}
