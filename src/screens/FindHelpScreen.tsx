@@ -327,22 +327,22 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   headerContainer: {
-    paddingHorizontal: 16,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingHorizontal: 20,
+    paddingTop: 30,
+    paddingBottom: 25,
     backgroundColor: '#1976D2',
   },
   pageTitle: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: '700',
     color: '#FFFFFF',
-    marginBottom: 6,
+    marginBottom: 8,
   },
   pageSubtitle: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '400',
     color: 'rgba(255, 255, 255, 0.9)',
-    lineHeight: 20,
+    lineHeight: 22,
   },
   // Emergency CTA
   emergencyContainer: {
