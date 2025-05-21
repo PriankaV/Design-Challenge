@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 12,
     textAlign: 'center',
-    color: '#111827',
+    color: '#000',
   },
   subtitle: {
     fontSize: 20,
@@ -56,13 +56,13 @@ const styles = StyleSheet.create({
   
   // Hero Section
   heroPattern: {
-    paddingVertical: 130,
+    paddingVertical: 80,
     paddingHorizontal: 20,
     alignItems: 'center',
-    backgroundColor: '#e5fcf1',
+    backgroundColor: '#e5f9ff',
   },
   heroContainer: {
-    backgroundColor: '#e5fcf1',
+    backgroundColor: '#e5f9ff',
   },
   textSection: {
     flex: 1,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   gradientText: {
-    color: '#09b880',
+    color: '#10b981',
     fontWeight: '800',
   },
   subText: {
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   svg: {
     width: '100%',
     height: 120,
-  },    
+  },
   
   // How It Works Section
   stepsContainer: {
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   stepCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#fffaea',
     borderRadius: 16,
     padding: 24,
     width: '22%',
@@ -249,20 +249,20 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 3,
     borderWidth: 1,
-    borderColor: '#c3f7de',
+    borderColor: '#fef1bb',
     justifyContent: 'flex-start',
   },
   stepNumber: {
     fontSize: 42,
     fontWeight: 'bold',
-    color: '#10b981',
+    color: '#f69e17',
     marginBottom: 16,
   },
   stepTitle: {
     fontSize: 20,
     fontWeight: '700',
     marginBottom: 10,
-    color: '#111827',
+    color: '#000',
   },
   stepDescription: {
     fontSize: 15,

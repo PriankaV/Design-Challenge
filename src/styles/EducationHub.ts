@@ -1,267 +1,426 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  safeArea: {
+  // Main Container
+  container: {
     flex: 1,
     backgroundColor: '#fff',
   },
-  container: {
-    flex: 1,
-  },
+
   // Hero Section
-  heroWrapper: {
-    width: '100%',
-    height: '20%',
+  heroSection: {
+    height: 300,
+    overflow: 'hidden',
   },
-  heroPattern: {
+  imageBackground: {
+    flex: 1,
     width: '100%',
     height: '100%',
   },
-  gradientOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: 2,
-    height: '10%',
-    top: '90%',
+  heroOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
   },
   heroContent: {
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 30,
+    width: '100%',
+  },
+  heroTitle: {
+    fontSize: 28,
+    fontWeight: '800',
+    color: '#fff',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  heroSubtitle: {
+    fontSize: 16,
+    color: '#f0fdf4',
+    lineHeight: 22,
+    opacity: 0.95,
+    width: '90%',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+
+  // Search
+  searchContainer: {
+    width: '90%',
+    maxWidth: 350,
+    alignItems: 'center',
+  },
+  searchInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f1f5f9',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    width: '100%',
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#1f2937',
+  },
+  clearButton: {
+    padding: 5,
+  },
+
+  // Category Navigation
+  categoryNav: {
+    backgroundColor: 'white',
+    paddingVertical: 12,
+    paddingHorizontal: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f1f5f9',
+  },
+  stickyHeader: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+    zIndex: 1000,
+  },
+  categoryScroll: {
+    flexGrow: 0,
+  },
+  categoryTab: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+    marginHorizontal: 5,
+  },
+  categoryTabActive: {
+    backgroundColor: '#d1fae5',
+  },
+  categoryTabInactive: {
+    backgroundColor: '#f1f5f9',
+  },
+  categoryTabText: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginLeft: 6,
+  },
+  categoryTabTextActive: {
+    color: '#047857',
+  },
+  categoryTabTextInactive: {
+    color: '#6b7280',
+  },
+  
+  // Section Containers
+  sectionContainer: {
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#1f2937',
+  },
+  viewAllButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  viewAllText: {
+    fontSize: 14,
+    color: '#10b981',
+    fontWeight: '500',
+    marginRight: 2,
+  },
+  
+  // Category Header
+  categoryHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  categoryIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  trendingHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  tipsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  
+  // Horizontal Scrolls
+  horizontalScroll: {
+    flexGrow: 0,
+    paddingRight: 5,
+    paddingBottom: 5,
+  },
+  
+  // Card Styles
+  personalizedCard: {
+    width: width * 0.6,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    marginRight: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+    overflow: 'hidden',
+  },
+  cardContent: {
+    padding: 15,
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#1f2937',
+    marginBottom: 6,
+  },
+  cardDescription: {
+    fontSize: 14,
+    color: '#6b7280',
+    marginBottom: 12,
+    lineHeight: 20,
+  },
+  
+  // Video Cards
+  videoCard: {
+    width: width * 0.6,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    marginRight: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+    overflow: 'hidden',
+  },
+  thumbnailContainer: {
+    position: 'relative',
+    height: 110,
+  },
+  thumbnail: {
+    width: '100%',
+    height: '100%',
+  },
+  thumbnailOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 3,
-    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
     justifyContent: 'center',
-    paddingHorizontal: 24,
-  },
-  heroTitle: {
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    textAlign: 'center',
-    marginBottom: 12,
-    textShadowColor: 'rgba(0, 0, 0, 0.6)',
-    textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 4,
-  },
-  heroSubtitle: {
-    fontSize: 18,
-    color: '#F3F4F6',
-    textAlign: 'center',
-    lineHeight: 28,
-    textShadowColor: 'rgba(0, 0, 0, 0.5)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
-  },
-  // Tabs navigation
-  tabsContainer: {
-    paddingVertical: 20,
-    paddingTop: 60,
-    backgroundColor: '#fff',
-    alignItems: 'center'
-  },
-  tabsScrollContainer: {
-    paddingHorizontal: 16,
-  },
-  tabButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginRight: 8,
-    borderRadius: 8,
-    backgroundColor: '#f3f4f6',
-  },
-  activeTabButton: {
-    backgroundColor: '#e5fcf1',
-  },
-  tabContent: {
-    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tabLabel: {
-    marginTop: 4,
-    fontSize: 12,
-    fontWeight: '500',
-    color: '#64748b',
-  },
-  activeTabLabel: {
-    color: '#10b981',
-    fontWeight: '600',
-  },
-  // Fun Facts Carousel
-  funFactContainer: {
-    backgroundColor: '#E8F5E9',
-    padding: 16,
-    marginHorizontal: 20,
-    marginVertical: 12,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#C8E6C9',
-  },
-  funFactHeader: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#10b981',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  funFactContent: {
-    alignItems: 'center',
-    minHeight: 60,
-    justifyContent: 'center',
-  },
-  funFactText: {
-    fontSize: 14,
-    color: '#4b5563',
-    lineHeight: 20,
-    textAlign: 'center',
-  },
-  dotContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 8,
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: '#A5D6A7',
-    marginHorizontal: 3,
-  },
-  activeDot: {
-    backgroundColor: '#10b981',
-    width: 12,
-  },
-  // Section styling
-  section: {
-    marginBottom: 24,
-    paddingHorizontal: 20,
-  },
-  sectionHeaderContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-    marginTop: 8,
-  },
-  sectionTitleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  sectionIcon: {
-    marginRight: 10,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#10b981',
-    marginLeft: 10,
-  },
-  // Cards
-  cardList: {
-    paddingVertical: 10,
-    paddingBottom: 16,
-  },
-  card: {
-    width: 300,
-    marginRight: 16,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 2,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-  },
-  cardContent: {
-    padding: 16,
-  },
-  cardTitle: {
-    fontSize: 17,
-    fontWeight: '600',
-    marginBottom: 6,
-    color: '#2C3E50',
-  },
-  cardText: {
-    fontSize: 14,
-    color: '#546E7A',
-    lineHeight: 20,
-    marginBottom: 12,
-  },
-  featureTag: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 10,
-    alignSelf: 'flex-start',
-    marginBottom: 6,
-  },
-  featureTagText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '500',
-    marginLeft: 4,
-  },
-  learnMoreButton: {
-    paddingVertical: 10,
-    alignItems: 'center',
-    borderRadius: 8,
-    marginTop: 8,
-  },
-  learnMoreText: {
-    fontWeight: '600',
-    fontSize: 14,
-    color: '#fff',
-  },
-  // YouTube Videos Section
-  videoList: {
-    paddingVertical: 10,
-  },
-  videoCard: {
-    width: 300,
-    marginRight: 16,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 2,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-  },
-  videoThumbnail: {
-    width: '100%',
-    height: 180,
   },
   playButton: {
-    position: 'absolute',
-    top: '25%',
-    left: '45%',
-    backgroundColor: 'rgba(255, 0, 0, 0.8)',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  videoContent: {
-    padding: 12,
+  videoCardContent: {
+    padding: 15,
   },
-  videoTitle: {
+  videoCardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 6,
+  },
+  videoCardTitle: {
     fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
-    color: '#2C3E50',
+    fontWeight: 'bold',
+    color: '#1f2937',
+    flex: 1,
+    marginRight: 10,
   },
-  videoChannel: {
+  videoCardDescription: {
+    color: '#6b7280',
     fontSize: 14,
-    color: '#7F8C8D',
+    marginBottom: 8,
+    lineHeight: 20,
+  },
+  videoCardStats: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  videoCardStatsText: {
+    fontSize: 12,
+    color: '#6b7280',
+    marginLeft: 4,
+  },
+  
+  // Category Cards
+  categoryCard: {
+    width: width * 0.6,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    marginRight: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+    overflow: 'hidden',
+  },
+  categoryCardTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    flex: 1,
+    marginRight: 10,
+  },
+  trendingTag: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fee2e2',
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 12,
+    alignSelf: 'flex-start',
+    marginBottom: 10,
+  },
+  trendingTagText: {
+    fontSize: 12,
+    color: '#dc2626',
+    marginLeft: 4,
+    fontWeight: '500',
+  },
+  learnButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    alignSelf: 'flex-start',
+    marginTop: 8,
+  },
+  learnButtonText: {
+    color: 'white',
+    fontWeight: '500',
+    marginRight: 4,
+  },
+  
+  // Facts Card
+  factsContainer: {
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+  },
+  factsCard: {
+    backgroundColor: '#c3f7de',
+    borderRadius: 12,
+    padding: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  factsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  factsIconContainer: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  factsTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#1f2937',
+  },
+  factsContent: {
+    marginBottom: 12,
+  },
+  factText: {
+    fontSize: 15,
+    color: '#4b5563',
+    lineHeight: 22,
+  },
+  factsDots: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  factDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#d1d5db',
+    marginHorizontal: 4,
+  },
+  factDotActive: {
+    backgroundColor: '#10b981',
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
+  
+  // Tips Grid
+  tipsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginTop: 5,
+  },
+  tipCard: {
+    width: '48%',
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  tipCategoryBadge: {
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 12,
+    alignSelf: 'flex-start',
+    marginBottom: 8,
+  },
+  tipCategoryText: {
+    fontSize: 11,
+    fontWeight: '500',
+  },
+  tipText: {
+    fontSize: 14,
+    color: '#1f2937',
+    lineHeight: 20,
   }
 });
 

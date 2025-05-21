@@ -88,27 +88,30 @@ const LaunchScreen = () => {
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 80 }} showsVerticalScrollIndicator={false}>
           {/* Hero Section */}
           <View style={styles.heroPattern}>
-            <View style={styles.heroContainer}>
-              <View style={styles.row}>
-                {/* Text Section */}
-                <View style={styles.textSection}>
-                  <Text style={styles.heading}>
-                    Find Affordable,{'\n'}
-                    <Text style={styles.gradientText}>Healthy Food </Text>
-                    Nearby
-                  </Text>
-                  <Text style={styles.subText}>
-                    Connecting communities with fresh, affordable food options and reducing waste through sharing.
-                  </Text>
-                  <View style={styles.buttonRow}>
-                    <TouchableOpacity style={[styles.heroButton, styles.buttonPrimary]}>
-                      <Text style={styles.heroButtonText}>Explore Food Map ➔</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.heroButton, styles.buttonOutline]}>
-                      <Text style={styles.buttonOutlineText}>Join Food Share</Text>
-                    </TouchableOpacity>
-                  </View>
+          <View style={styles.heroContainer}>
+            <View style={styles.row}>
+              {/* Text Section */}
+              <View style={styles.textSection}>
+                <Text style={styles.heading}>
+                  Find Affordable,{'\n'}
+                  <Text style={styles.gradientText}>Healthy Food </Text>
+                  Nearby
+                </Text>
+                <Text style={styles.subText}>
+                  Access nutritious food options, discover budget-friendly recipes, and connect with assistance programs.
+                </Text>
+                <View style={styles.buttonRow}>
+                  <TouchableOpacity 
+                    style={[styles.heroButton, styles.buttonPrimary]}
+                    // onPress={scrollToMap}
+                  >
+                    <Text style={styles.heroButtonText}>Explore Food Map ➔</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={[styles.heroButton, styles.buttonOutline]}>
+                    <Text style={styles.buttonOutlineText}>Learn More</Text>
+                  </TouchableOpacity>
                 </View>
+              </View>
 
                 {/* Image Section */}
                 <View style={styles.imageSection}>

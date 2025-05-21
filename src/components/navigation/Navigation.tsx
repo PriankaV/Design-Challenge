@@ -32,7 +32,6 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
   if (Platform.OS === 'web') {
     return (
       <View style={styles.container}>
-        {/* Floating navbar for web */}
         <View style={styles.floatingNavbar}>
           <View style={styles.logoContainer}>
             <Image 
@@ -49,7 +48,7 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
               <View style={styles.navLinks}>
                 {navItems.map((item) => {
                   const isActive = isRouteActive(item.route);
-                  const iconColor = isActive ? '#ffffff' : '#d15e34';
+                  const iconColor = isActive ? '#fff' : '#d15e34';
 
                   return (
                     <TouchableOpacity 
@@ -102,7 +101,7 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
       <View style={styles.bottomBar}>
         {navItems.map((item) => {
           const isActive = isRouteActive(item.route);
-          const iconColor = isActive ? '#ffffff' : '#d15e34';
+          const iconColor = isActive ? '#fff' : '#d15e34';
 
           return (
             <TouchableOpacity 
@@ -161,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     fontFamily: Platform.OS === 'web' ? 'Poppins, sans-serif' : undefined,
-    color: '#d15e34',
+    color: '#b7612c',
   },
   contentContainer: {
     flex: 1,
@@ -172,7 +171,7 @@ const styles = StyleSheet.create({
     pointerEvents: 'auto',
   },
   navLinksBackground: {
-    backgroundColor: 'rgb(254, 243, 227)',
+    backgroundColor: '#f8efd4',
     borderRadius: 28,
     padding: 6,
     shadowColor: '#333',
@@ -197,17 +196,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   activeNavItem: {
-    backgroundColor: '#d15e34',
+    backgroundColor: '#b7612c',
   },
   link: {
     fontSize: 16,
-    color: '#d15e34',
+    color: '#000',
     fontWeight: '500',
     fontFamily: Platform.OS === 'web' ? 'Poppins, sans-serif' : undefined,
     marginLeft: 8,
   },
   activeLink: {
-    color: '#ffffff',
+    color: '#fff',
     fontWeight: '600',
   },
   mobileMenuButton: {
@@ -258,7 +257,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   activeBottomNavItem: {
-    backgroundColor: '#d15e34',
+    backgroundColor: '#b7612c',
     borderRadius: 8,
     marginHorizontal: 4,
     paddingVertical: 8,
@@ -266,11 +265,11 @@ const styles = StyleSheet.create({
   bottomNavText: {
     fontSize: 12,
     marginTop: 4,
-    color: '#d15e34',
+    color: '#b7612c',
     fontFamily: Platform.OS === 'web' ? 'Poppins, sans-serif' : undefined,
   },
   activeBottomNavText: {
-    color: '#ffffff',
+    color: '#fff',
     fontWeight: '600',
   },
 });
