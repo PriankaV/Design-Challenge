@@ -1,25 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-  Animated,
-  AccessibilityInfo,
-  Image,
-  TextInput,
-  FlatList,
-  Platform
-} from 'react-native';
 import Navigation from '../components/navigation/Navigation';
-import {
-  Utensils, PiggyBank, Droplet, Recycle, Info, Video, Play, ShoppingBag, Search, 
-  ChevronRight, X, TrendingUp, Star
-} from 'lucide-react';
+import Footer from '../components/Footer';
+import { View, Text, ScrollView, TouchableOpacity, Animated, AccessibilityInfo, Image, TextInput, Platform } from 'react-native';
+import { Utensils, PiggyBank, Droplet, Recycle, Info, Video, Play, ShoppingBag, Search, ChevronRight, X, TrendingUp, Star } from 'lucide-react';
 import { ImageBackground } from 'react-native';
 import styles from '../styles/EducationHub';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Linking } from 'react-native';
 
 const renderIcon = (iconName, size, color) => {
@@ -333,36 +318,6 @@ const EducationHubScreen = () => {
       .filter(category => category.data.length > 0);
   };
 
-  const renderVideoCard = ({ item }) => (
-    <TouchableOpacity 
-      onPress={() => Linking.openURL(item.link)}
-      style={styles.videoCard}
-    >
-      <View style={styles.thumbnailContainer}>
-        <Image
-          source={{ uri: item.thumbnail }}
-          style={styles.thumbnail}
-          accessibilityLabel={`Thumbnail for ${item.title}`}
-        />
-        <View style={styles.thumbnailOverlay}>
-          <View style={styles.playButton}>
-            {renderIcon('play', 24, '#fff')}
-          </View>
-        </View>
-      </View>
-      <View style={styles.videoCardContent}>
-        <View style={styles.videoCardHeader}>
-          <Text style={styles.videoCardTitle}>{item.title}</Text>
-        </View>
-        <Text style={styles.videoCardDescription}>{item.channel}</Text>
-        <View style={styles.videoCardStats}>
-          {renderIcon('video', 14, '#6b7280')}
-          <Text style={styles.videoCardStatsText}>YouTube</Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-
   const renderCategoryTab = (value, label, iconName) => (
     <TouchableOpacity
       style={[
@@ -385,51 +340,10 @@ const EducationHubScreen = () => {
     </TouchableOpacity>
   );
 
-  const renderCategoryCard = ({ item, section }) => (
-    <TouchableOpacity
-      style={styles.categoryCard}
-      onPress={() => {
-        if (item.videoLink) {
-          if (Platform.OS === 'web') {
-            window.open(item.videoLink, '_blank');
-          } else {
-            Linking.openURL(item.videoLink);
-          }
-        }
-      }}
-      accessibilityRole="button"
-    >
-      <View style={styles.cardContent}>
-        <Text style={styles.cardTitle}>{item.title}</Text>
-        <Text style={styles.cardDescription}>{item.description}</Text>
-        
-        {item.videoLink && (
-          <View style={styles.trendingTag}>
-            {renderIcon('video', 12, '#dc2626')}
-            <Text style={styles.trendingTagText}>Video Tutorial</Text>
-          </View>
-        )}
-        
-        <View 
-          style={[
-            styles.learnButton,
-            { backgroundColor: section.color }
-          ]}
-        >
-          <Text style={styles.learnButtonText}>Learn More</Text>
-          {renderIcon('chevron-right', 16, '#fff')}
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-
   return (
-    <SafeAreaView style={styles.container}>
-      <Navigation>
-        <ScrollView
-          contentContainerStyle={{ paddingBottom: 100 }}
-          showsVerticalScrollIndicator={false}
-        >
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }} showsVerticalScrollIndicator={false} >
+        <Navigation>
           {/* Hero Section */}
           <View style={styles.heroSection}>
             <ImageBackground
@@ -651,9 +565,10 @@ const EducationHubScreen = () => {
               </View>
             </View>
           </View>
-        </ScrollView>
-      </Navigation>
-    </SafeAreaView>
+        </Navigation>
+        <Footer/>
+      </ScrollView>
+    </View>
   );
 };
 

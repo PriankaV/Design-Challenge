@@ -1,0 +1,447 @@
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
+const cardWidth = (width - 64) / 5;
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FAF7F4',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  header: {
+    alignItems: 'center',
+    paddingVertical: 32,
+    paddingHorizontal: 16,
+    backgroundColor: '#FF6B35',
+    marginBottom: 16,
+  },
+  headerTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  headerTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginLeft: 8,
+  },
+  headerSubtitle: {
+    fontSize: 16,
+    color: '#fff',
+    textAlign: 'center',
+    lineHeight: 24,
+    maxWidth: 400,
+    opacity: 0.9,
+  },
+  filtersContainer: {
+    paddingHorizontal: 16,
+    marginBottom: 24,
+  },
+  searchContainer: {
+    position: 'relative',
+    marginBottom: 16,
+  },
+  searchIcon: {
+    position: 'absolute',
+    left: 12,
+    top: 12,
+    zIndex: 1,
+  },
+  searchInput: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingLeft: 44,
+    paddingRight: 16,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
+  },
+  tagsList: {
+    flexGrow: 0,
+  },
+  tagsListContent: {
+    paddingHorizontal: 8,
+  },
+  filterPill: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginHorizontal: 4,
+    borderWidth: 1,
+  },
+  filterPillActive: {
+    backgroundColor: '#FF6B35',
+    borderColor: '#FF6B35',
+  },
+  filterPillInactive: {
+    backgroundColor: '#fff',
+    borderColor: '#E5E5E5',
+  },
+  filterPillText: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  filterPillTextActive: {
+    color: '#fff',
+  },
+  filterPillTextInactive: {
+    color: '#666',
+  },
+  recipesList: {
+    paddingHorizontal: 8,
+  },
+  recipeRow: {
+    justifyContent: 'space-between',
+    paddingHorizontal: 8,
+  },
+  noResultsContainer: {
+    alignItems: 'center',
+    paddingVertical: 48,
+  },
+  noResultsText: {
+    fontSize: 18,
+    color: '#666',
+  },
+  recipeCard: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    width: cardWidth,
+    marginHorizontal: 4,
+  },
+  imageContainer: {
+    position: 'relative',
+    height: 120,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    overflow: 'hidden',
+  },
+  recipeImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  difficultyBadge: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    backgroundColor: '#fff',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  difficultyText: {
+    fontSize: 10,
+    fontWeight: '500',
+    color: '#333',
+  },
+  cardContent: {
+    padding: 12,
+    flex: 1,
+  },
+  recipeTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 6,
+    lineHeight: 18,
+  },
+  recipeDescription: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 8,
+    lineHeight: 16,
+  },
+  prepTimeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  prepTimeText: {
+    fontSize: 12,
+    color: '#666',
+    marginLeft: 4,
+  },
+  tagsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 2,
+  },
+  tag: {
+    backgroundColor: '#FFE5D6',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+    marginRight: 2,
+    marginBottom: 2,
+  },
+  tagText: {
+    fontSize: 10,
+    color: '#FF6B35',
+    fontWeight: '500',
+  },
+  cardFooter: {
+    borderTopWidth: 1,
+    borderTopColor: '#E5E5E5',
+    padding: 12,
+  },
+  viewRecipeButton: {
+    backgroundColor: '#FF6B35',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+  viewRecipeText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '600',
+    marginLeft: 4,
+  },
+  // Pagination styles
+  paginationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 24,
+    marginTop: 16,
+  },
+  paginationButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#FF6B35',
+    minWidth: 100,
+    justifyContent: 'center',
+  },
+  paginationButtonDisabled: {
+    backgroundColor: '#f5f5f5',
+    borderColor: '#ccc',
+  },
+  paginationButtonText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#FF6B35',
+    marginHorizontal: 4,
+  },
+  paginationButtonTextDisabled: {
+    color: '#ccc',
+  },
+  paginationInfo: {
+    alignItems: 'center',
+  },
+  paginationText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+  },
+  paginationSubtext: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 4,
+  },
+  // Recipe detail styles
+  recipeDetailContainer: {
+    padding: 16,
+  },
+  detailTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  detailImage: {
+    width: '100%',
+    height: 250,
+    resizeMode: 'cover',
+    borderRadius: 12,
+    marginBottom: 16,
+  },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginBottom: 16,
+  },
+  backButtonText: {
+    fontSize: 18,
+    color: '#FF6B35',
+    fontWeight: '600',
+    marginLeft: 8,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5',
+    paddingTop: 60,
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+    flex: 1,
+    marginRight: 16,
+  },
+  closeButton: {
+    padding: 8,
+  },
+  modalContent: {
+    flex: 1,
+    paddingHorizontal: 16,
+  },
+  modalImage: {
+    width: '100%',
+    height: 200,
+    resizeMode: 'cover',
+    borderRadius: 8,
+    marginVertical: 16,
+  },
+  modalTagsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 24,
+    gap: 8,
+  },
+  modalTag: {
+    backgroundColor: '#FFE5D6',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+  modalTagText: {
+    fontSize: 14,
+    color: '#FF6B35',
+    fontWeight: '500',
+  },
+  recipeInfoGrid: {
+    flexDirection: 'row',
+    marginBottom: 24,
+    gap: 8,
+  },
+  infoItem: {
+    flex: 1,
+    backgroundColor: '#FAF7F4',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  infoLabel: {
+    fontSize: 12,
+    color: '#666',
+    marginTop: 8,
+    marginBottom: 4,
+  },
+  infoValue: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+  },
+  section: {
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 12,
+  },
+  sectionText: {
+    fontSize: 16,
+    color: '#666',
+    lineHeight: 24,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#E5E5E5',
+    marginVertical: 24,
+  },
+  ingredientItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  bulletPoint: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#FF6B35',
+    marginRight: 12,
+  },
+  ingredientText: {
+    fontSize: 16,
+    color: '#333',
+    flex: 1,
+  },
+  instructionItem: {
+    flexDirection: 'row',
+    marginBottom: 16,
+  },
+  stepNumber: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#4CAF50',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+    marginTop: 2,
+  },
+  stepNumberText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  instructionText: {
+    fontSize: 16,
+    color: '#666',
+    flex: 1,
+    lineHeight: 24,
+  },
+  tipContainer: {
+    backgroundColor: '#E8F5E8',
+    padding: 16,
+    borderRadius: 8,
+    marginTop: 24,
+    marginBottom: 32,
+  },
+  tipTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 8,
+  },
+  tipText: {
+    fontSize: 16,
+    color: '#666',
+    lineHeight: 24,
+  },
+});

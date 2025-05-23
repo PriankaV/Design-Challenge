@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Animated, ScrollView } from 'react-native';
 import { Search, MapPin, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Svg, { Path } from 'react-native-svg';
-
 import MapWrapper from '../components/MapWrapper';
-import Navigation from '../components/navigation/Navigation';
-import styles from '../styles/LaunchScreen';
 import foodBankData from '../../assets/food_banks_geocoded.json';
+
+import Svg, { Path } from 'react-native-svg';
+import Navigation from '../components/navigation/Navigation';
+import Footer from '../components/Footer';
+import styles from '../styles/LaunchScreen';
 
 // How it Works Card info
 const stepsData = [
   { number: "01", title: "Enter Your Location", description: "Start by entering your zip code or allowing location access to find resources near you." },
-  { number: "02", title: "Explore Options", description: "Browse affordable grocery stores, food banks, community kitchens, and neighbor shares." },
-  { number: "03", title: "Connect & Share", description: "Claim available food items or share your extras with neighbors in need." },
-  { number: "04", title: "Build Community", description: "Reduce food waste while creating stronger, more resilient neighborhood connections." }
+  { number: "02", title: "Explore Options", description: "Browse affordable grocery stores, food banks, community kitchens, and federal assistance programs." },
+  { number: "03", title: "Find Resources", description: "Discover nutritious recipes, educational resources, and federal assistance programs available to you." },
+  { number: "04", title: "Build Knowledge", description: "Learn sustainable food practices while accessing the support you need for a healthier lifestyle." }
 ];
 
 interface FoodBankData {
@@ -37,7 +37,7 @@ const LaunchScreen = () => {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const locationsPerPage = 5; // Fixed at 5 locations per page
+  const locationsPerPage = 5;
 
   // Pulse animation
   useEffect(() => {
@@ -83,9 +83,9 @@ const LaunchScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Navigation>
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 80 }} showsVerticalScrollIndicator={false}>
+    <View style={styles.container}>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 80 }} showsVerticalScrollIndicator={false}>
+        <Navigation>
           {/* Hero Section */}
           <View style={styles.heroPattern}>
           <View style={styles.heroContainer}>
@@ -158,7 +158,7 @@ const LaunchScreen = () => {
           {/* How It Works */}
           <View style={styles.headerContainer}>
             <Text style={styles.title}>How It Works</Text>
-            <Text style={styles.subtitle}>Budget Bites makes accessing and sharing food simple and straightforward.</Text>
+            <Text style={styles.subtitle}>Budget Bites connects you with healthy food resources, knowledge, and assistance.</Text>
           </View>
           <View style={styles.stepsContainer}>
             {stepsData.map((step, index) => (
@@ -288,9 +288,10 @@ const LaunchScreen = () => {
               </View>
             </View>
           </View>
-        </ScrollView>
-      </Navigation>
-    </SafeAreaView>
+        </Navigation>
+        <Footer/>
+      </ScrollView>
+    </View>
   );
 };
 

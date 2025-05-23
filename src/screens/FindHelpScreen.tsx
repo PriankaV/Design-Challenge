@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, Dimensions, ScrollView, AccessibilityInfo, Linking } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, ScrollView, AccessibilityInfo, Linking } from 'react-native';
 import { MapPin, Briefcase, Home, Book, Apple, ChevronRight, ExternalLink, Users, Phone, Star, Info, FileText } from 'lucide-react';
 import Navigation from '../components/navigation/Navigation';
+import Footer from '../components/Footer';
 
 const FindHelpScreen = () => {
   const [activeTab, setActiveTab] = useState('all');
@@ -227,9 +228,9 @@ const FindHelpScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <Navigation>
-        <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
+    <View style={styles.safeArea}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
+        <Navigation>
           <View style={styles.headerContainer}>
             <Text style={styles.pageTitle}>Find Assistance</Text>
             <Text style={styles.pageSubtitle}>
@@ -309,9 +310,10 @@ const FindHelpScreen = () => {
               Eligibility requirements and availability may vary. Contact each organization directly for the most current information.
             </Text>
           </View>
-        </ScrollView>
-      </Navigation>
-    </SafeAreaView>
+        </Navigation>
+        <Footer/>
+      </ScrollView>
+    </View>
   );
 };
 
