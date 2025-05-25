@@ -30,9 +30,9 @@ Front End:
 ## 📁 Project Structure
 ```bash
 /src
-  /components        # Reusable UI components
+  /components        # Reusable UI components: Footer, NavBar, ect.
   /screens           # Pages (Map, Recipes, Education, etc.)
-  /utils             # Firebase/Supabase clients, helpers
+  /utils             # Superbase Client, ChatBot
   App.js
   index.js
 ```
@@ -43,4 +43,14 @@ Front End:
 - Role-based user settings (family, grocer, volunteer)
 
 ## Installation 
+1. Download Node.js, https://nodejs.org/en
+2. Go to terminal ```npm install -g expo-cli```
+3. Run the App
+```
+git clone https://github.com/PriankaV/Design-Challenge.git
+cd Design-Challenge
+npm install
+npx expo install react-dom react-native-web @expo/metro-runtime
+npx expo start
+```
 
