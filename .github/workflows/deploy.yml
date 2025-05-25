@@ -40,10 +40,12 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install
 
       - name: Build web version
-        run: npx expo export --platform web
+        run: |
+          npx expo export --platform web --output-dir web-build
+          ls web-build  # optional: to verify index.html is there
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
