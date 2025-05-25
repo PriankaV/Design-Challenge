@@ -17,6 +17,7 @@
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
+
 name: Deploy Expo Web to GitHub Pages
 
 on:
@@ -39,10 +40,10 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build web version
-        run: npx expo export:web
+        run: npx expo export --platform web
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
