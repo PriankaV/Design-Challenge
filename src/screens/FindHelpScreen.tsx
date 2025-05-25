@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, ScrollView, Accessi
 import { MapPin, Briefcase, Home, Book, Apple, ChevronRight, ExternalLink, Users, Phone, Star, Info, FileText } from 'lucide-react';
 import Navigation from '../components/navigation/Navigation';
 import Footer from '../components/Footer';
+import ChatBot from '../utils/ChatBot';
 
 const FindHelpScreen = () => {
   const [activeTab, setActiveTab] = useState('all');
@@ -311,6 +312,7 @@ const FindHelpScreen = () => {
             </Text>
           </View>
         </Navigation>
+        <ChatBot visible={false} />
         <Footer/>
       </ScrollView>
     </View>
@@ -377,13 +379,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   emergencyTitle: {
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: '600',
     color: '#D32F2F',
     marginBottom: 2,
   },
   emergencyDescription: {
-    fontSize: 13,
+    fontSize: 15,
     color: '#616161',
   },
   // Category Tabs
@@ -395,9 +397,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   categoryTab: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 30,
     paddingVertical: 10,
-    marginHorizontal: 4,
+    marginHorizontal: 10,
     backgroundColor: '#E3F2FD',
     borderRadius: 20,
     alignItems: 'center',
@@ -442,7 +444,7 @@ const styles = StyleSheet.create({
   },
   // Section Styling
   sectionContainer: {
-    marginHorizontal: 16,
+    marginHorizontal: 30,
     marginBottom: 24,
     backgroundColor: '#FFFFFF',
     borderRadius: 12,

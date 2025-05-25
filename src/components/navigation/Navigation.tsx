@@ -20,7 +20,7 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
   const navItems = [
     { name: 'Home', route: 'Home', icon: (color: string) => <Home size={20} color={color} /> },
     { name: 'Recipes', route: 'Recipe', icon: (color: string) => <BookOpen size={20} color={color} /> },
-    { name: 'Education Hub', route: 'Education Hub', icon: (color: string) => <GraduationCap size={20} color={color} /> },
+    { name: 'Savings Guide', route: 'Education Hub', icon: (color: string) => <GraduationCap size={20} color={color} /> },
     { name: 'Find Help', route: 'Find Help', icon: (color: string) => <Lightbulb size={20} color={color} /> },
   ];
 

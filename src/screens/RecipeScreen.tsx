@@ -4,6 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, FlatList, A
 import { ChefHat, Search, Clock, Utensils, CookingPot, ChevronLeft, ChevronRight } from 'lucide-react-native';
 import { styles } from '../styles/Recipe';
 import Footer from '../components/Footer';
+import ChatBot from '../utils/ChatBot';
 
 export interface RecipeProps {
   idMeal: string;
@@ -216,43 +217,96 @@ const RecipeApp = () => {
   const [allTags, setAllTags] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showRecipeDetail, setShowRecipeDetail] = useState(false);
-  
+
   const RECIPES_PER_PAGE = 15;
 
-  // Fetch recipes from API
-  const fetchRecipes = async (query: string = '') => {
-    if (!query.trim()) {
-      query = 'chicken';
+  // Pantry staple items list
+  const pantryStapleItems = [
+    'canned beans',
+    'canned vegetables',
+    'pasta',
+    'rice',
+    'canned soup',
+    'canned tuna',
+    'peanut butter',
+    'canned fruit',
+    'vegetable stew',
+    'canned salmon',
+    'canned chicken',
+    'canned beef',
+    'noodles',
+    'pasta',
+    'oatmeal'
+  ];
+
+const fetchRecipes = async () => {
+  setLoading(true);
+  try {
+    const uniqueRecipeIds = new Set<string>();
+    const detailedRecipes: RecipeProps[] = [];
+
+    // If the user typed something in searchTerm, use it to search by ingredient or name
+    if (searchTerm.trim()) {
+      // Search recipes by main ingredient
+      const searchResponse = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${encodeURIComponent(searchTerm.trim())}`);
+      const searchData: { meals: { idMeal: string; strMeal: string; strMealThumb: string; }[] | null } = await searchResponse.json();
+
+      if (searchData.meals) {
+        for (const meal of searchData.meals) {
+          if (!uniqueRecipeIds.has(meal.idMeal)) {
+            uniqueRecipeIds.add(meal.idMeal);
+            const detailResponse = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`);
+            const detailData: ApiResponse = await detailResponse.json();
+
+            if (detailData.meals && detailData.meals[0]) {
+              const transformed = transformMealData(detailData.meals[0]);
+              detailedRecipes.push(transformed);
+            }
+          }
+        }
+      }
+    } else {
+      // No search term: load pantry staple recipes
+      for (const item of pantryStapleItems) {
+        const filterResponse = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${encodeURIComponent(item)}`);
+        const filterData: { meals: { idMeal: string; strMeal: string; strMealThumb: string; }[] | null } = await filterResponse.json();
+
+        if (filterData.meals) {
+          for (const meal of filterData.meals) {
+            if (!uniqueRecipeIds.has(meal.idMeal)) {
+              uniqueRecipeIds.add(meal.idMeal);
+              const detailResponse = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`);
+              const detailData: ApiResponse = await detailResponse.json();
+
+              if (detailData.meals && detailData.meals[0]) {
+                const transformed = transformMealData(detailData.meals[0]);
+                detailedRecipes.push(transformed);
+              }
+            }
+          }
+        }
+      }
     }
 
-    setLoading(true);
-    try {
-      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(query)}`);
-      const data: ApiResponse = await response.json();
-      
-      if (data.meals) {
-        const transformedRecipes = data.meals.map(transformMealData);
-        setRecipes(transformedRecipes);
-        
-        // Extract all unique tags
-        const tags = new Set<string>();
-        transformedRecipes.forEach(recipe => {
-          getRecipeTags(recipe).forEach(tag => tags.add(tag));
-        });
-        setAllTags(Array.from(tags));
-        setCurrentPage(1);
-      } else {
-        setRecipes([]);
-        setAllTags([]);
-      }
-    } catch (error) {
-      console.error('Error fetching recipes:', error);
-      Alert.alert('Error', 'Failed to fetch recipes. Please try again.');
-      setRecipes([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+    // Update state
+    setRecipes(detailedRecipes);
+
+    // Extract tags
+    const tags = new Set<string>();
+    detailedRecipes.forEach(recipe => {
+      getRecipeTags(recipe).forEach(tag => tags.add(tag));
+    });
+    setAllTags(Array.from(tags));
+    setCurrentPage(1);
+  } catch (error) {
+    console.error('Error fetching recipes:', error);
+    Alert.alert('Error', 'Failed to fetch recipes. Please try again.');
+    setRecipes([]);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   // Search recipes when search term changes (with debounce)
   useEffect(() => {

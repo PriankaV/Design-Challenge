@@ -5,7 +5,6 @@ const Footer = () => {
   return (
     <View style={styles.footer}>
       <Text style={styles.footerText}>
-        © 2024 Company Name. All rights reserved.
       </Text>
     </View>
   );
@@ -17,9 +16,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingHorizontal: 20,
+    paddingTop: 1,
+    paddingBottom: 1,
+    paddingHorizontal: 2,
     backgroundColor: '#f8efd4',
     alignItems: 'center',
     justifyContent: 'center'

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Navigation from '../components/navigation/Navigation';
 import Footer from '../components/Footer';
-import { View, Text, ScrollView, TouchableOpacity, Animated, AccessibilityInfo, Image, TextInput, Platform } from 'react-native';
-import { Utensils, PiggyBank, Droplet, Recycle, Info, Video, Play, ShoppingBag, Search, ChevronRight, X, TrendingUp, Star } from 'lucide-react';
-import { ImageBackground } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Animated, AccessibilityInfo, Image, TextInput, Platform, Alert, Linking, ImageBackground } from 'react-native';
+import { Utensils, PiggyBank, Droplet, Recycle, Info, Video, Play, ShoppingBag, Search, ChevronRight, X, TrendingUp, Star, ChevronDown, ChevronUp } from 'lucide-react';
 import styles from '../styles/EducationHub';
-import { Linking } from 'react-native';
+import ChatBot from '../utils/ChatBot';
 
 const renderIcon = (iconName, size, color) => {
   switch (iconName) {
@@ -256,174 +255,65 @@ const funFacts = [
 ];
 
 const EducationHubScreen = () => {
-  const [currentFactIndex, setCurrentFactIndex] = useState(0);
-  const [isScreenReaderEnabled, setIsScreenReaderEnabled] = useState(false);
-  const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const fadeAnim = new Animated.Value(1);
-
-  useEffect(() => {
-    AccessibilityInfo.isScreenReaderEnabled().then((screenReaderEnabled) => {
-      setIsScreenReaderEnabled(screenReaderEnabled);
-    });
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 500,
-        useNativeDriver: true,
-      }).start(() => {
-        setCurrentFactIndex((prevIndex) => (prevIndex === funFacts.length - 1 ? 0 : prevIndex + 1));
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: true,
-        }).start();
-      });
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const getFilteredCategories = () => {
-    const lowerSearch = searchQuery.toLowerCase();
-
-    const visible = categories.filter(category => {
-      switch (activeTab) {
-        case 'food':
-          return category.title === 'Save Money & Food' || category.title === 'Quick & Easy Meals';
-        case 'water':
-          return category.title === 'Water Conservation';
-        case 'waste':
-          return category.title === 'Waste Reduction';
-        case 'shopping':
-          return category.title === 'Smart Shopping';
-        default:
-          return true;
-      }
-    });
-
-    if (!searchQuery.trim()) return visible;
-
-    return visible
-      .map(category => ({
-        ...category,
-        data: category.data.filter(item =>
-          item.title.toLowerCase().includes(lowerSearch) ||
-          item.description.toLowerCase().includes(lowerSearch)
-        )
-      }))
-      .filter(category => category.data.length > 0);
-  };
-
-  const renderCategoryTab = (value, label, iconName) => (
-    <TouchableOpacity
-      style={[
-        styles.categoryTab,
-        activeTab === value ? styles.categoryTabActive : styles.categoryTabInactive
-      ]}
-      onPress={() => setActiveTab(value)}
-      accessibilityRole="tab"
-      accessibilityState={{ selected: activeTab === value }}
-    >
-      {renderIcon(iconName, 16, activeTab === value ? '#047857' : '#6b7280')}
-      <Text 
-        style={[
-          styles.categoryTabText,
-          activeTab === value ? styles.categoryTabTextActive : styles.categoryTabTextInactive
-        ]}
-      >
-        {label}
-      </Text>
-    </TouchableOpacity>
-  );
 
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }} showsVerticalScrollIndicator={false} >
-        <Navigation>
-          {/* Hero Section */}
-          <View style={styles.heroSection}>
-            <ImageBackground
-              source={require('../../assets/images/edu-background.svg')}
-              style={styles.imageBackground}
-              resizeMode="cover"
-            >
-              <View style={styles.heroOverlay}>
-                <View style={styles.heroContent}>
-                  <Text style={styles.heroTitle}>Food & Resource Savings Guide</Text>
-                  <Text style={styles.heroSubtitle}>
-                    Simple, practical ways to reduce waste, save money, and make the most of what you have
-                  </Text>
-                  
-                  {/* Search Bar */}
-                  <View style={styles.searchContainer}>
-                    <View style={styles.searchInputContainer}>
-                      {renderIcon('search', 20, '#6b7280')}
-                      <TextInput
-                        style={styles.searchInput}
-                        placeholder="Search tips..."
-                        value={searchQuery}
-                        onChangeText={setSearchQuery}
-                        accessibilityLabel="Search for tips"
-                      />
-                      {searchQuery.length > 0 && (
-                        <TouchableOpacity 
-                          style={styles.clearButton}
-                          onPress={() => setSearchQuery('')}
-                        >
-                          {renderIcon('x', 16, '#6b7280')}
-                        </TouchableOpacity>
-                      )}
-                    </View>
-                  </View>
-                </View>
+    <Navigation>
+      <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 100 }}>
+        {/* Full-Width Hero Banner */}
+        <ImageBackground
+          source={require('../../assets/images/edu-background.svg')}
+          style={styles.heroBackgroundFullWidth}
+          resizeMode="cover"
+        >
+          <View style={styles.heroContent}>
+            <Text style={styles.heroTitle}>Food & Resource Savings Guide</Text>
+            <Text style={styles.heroSubtitle}>
+              Simple, practical ways to reduce waste, save money, and make the most of what you have
+            </Text>
+            <View style={styles.searchContainer}>
+              <View style={styles.searchInputContainer}>
+                {renderIcon('search', 20, '#6b7280')}
+                <TextInput
+                  style={styles.searchInput}
+                  placeholder="Search tips..."
+                  value={searchQuery}
+                  onChangeText={setSearchQuery}
+                  accessibilityLabel="Search for tips"
+                />
+                {searchQuery.length > 0 && (
+                  <TouchableOpacity style={styles.clearButton} onPress={() => setSearchQuery('')}>
+                    {renderIcon('x', 16, '#6b7280')}
+                  </TouchableOpacity>
+                )}
               </View>
-            </ImageBackground>
+            </View>
           </View>
-          
-          {/* Category Navigation */}
-          <View style={[styles.categoryNav, styles.stickyHeader]}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.categoryScroll}
-            >
-              {renderCategoryTab('all', 'All Tips', 'info')}
-              {renderCategoryTab('food', 'Food', 'utensils')}
-              {renderCategoryTab('water', 'Water', 'droplet')}
-              {renderCategoryTab('waste', 'Waste', 'recycle')}
-              {renderCategoryTab('shopping', 'Shopping', 'shopping-bag')}
-            </ScrollView>
-          </View>
+        </ImageBackground>
+        {/* Categories as Cards */}
+        <View style={styles.categoryContainer}>
+          {categories.map((category) => {
+            // Filter tips by search query
+            const filteredTips = category.data.filter((item) =>
+              item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              item.description.toLowerCase().includes(searchQuery.toLowerCase())
+            );
 
-          {/* Filtered Categories */}
-          {getFilteredCategories().map((section) => (
-            <View key={section.title} style={styles.sectionContainer}>
-              <View style={styles.sectionHeader}>
+            // Skip category if no tips match
+            if (filteredTips.length === 0) return null;
+
+            return (
+              <View key={category.title} style={styles.categoryCard}>
                 <View style={styles.categoryHeader}>
-                  <View style={[styles.categoryIcon, { backgroundColor: `${section.color}20` }]}>
-                    {renderIcon(section.icon, 18, section.color)}
+                  <View style={[styles.categoryIcon, { backgroundColor: `${category.color}20` }]}>
+                    {renderIcon(category.icon, 18, category.color)}
                   </View>
-                  <Text style={styles.sectionTitle}>{section.title}</Text>
+                  <Text style={styles.categoryTitle}>{category.title}</Text>
                 </View>
-                <TouchableOpacity style={styles.viewAllButton}>
-                  <Text style={styles.viewAllText}>View All</Text>
-                  {renderIcon('chevron-right', 16, '#10b981')}
-                </TouchableOpacity>
-              </View>
-              
-              <ScrollView 
-                horizontal 
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.horizontalScroll}
-              >
-                {section.data.map((item) => (
+                {filteredTips.map((item) => (
                   <TouchableOpacity
                     key={item.title}
-                    style={styles.categoryCard}
+                    style={styles.tipCard}
                     onPress={() => {
                       if (item.videoLink) {
                         if (Platform.OS === 'web') {
@@ -434,141 +324,40 @@ const EducationHubScreen = () => {
                       }
                     }}
                   >
-                    <View style={styles.cardContent}>
-                      <Text style={styles.categoryCardTitle}>{item.title}</Text>
-                      <Text style={styles.cardDescription}>{item.description}</Text>
-                      
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Text style={styles.tipText}>{item.title}</Text>
                       {item.videoLink && (
-                        <View style={styles.trendingTag}>
-                          {renderIcon('video', 12, '#dc2626')}
-                          <Text style={styles.trendingTagText}>Video Tutorial</Text>
-                        </View>
+                        <Video size={14} color="#FF0000" style={{ marginLeft: 6 }} />
                       )}
-                      
-                      <View style={[styles.learnButton, { backgroundColor: section.color }]}>
-                        <Text style={styles.learnButtonText}>Learn More</Text>
-                        {renderIcon('chevron-right', 16, '#fff')}
-                      </View>
                     </View>
                   </TouchableOpacity>
                 ))}
-              </ScrollView>
+              </View>
+            );
+          })}
+        </View>
+        {/* Quick Tips */}
+        <View style={styles.tipsContainer}>
+          <Text style={styles.sectionTitle}>Quick Tips</Text>
+          <View style={styles.tipsGrid}>
+            <View style={styles.tipCard}>
+              <Text style={styles.tipText}>Store herbs like fresh flowers in water to keep them fresh longer</Text>
             </View>
-          ))}
-
-          {/* Facts Card */}
-          <View style={styles.factsContainer}>
-            <View style={styles.factsCard}>
-              <View style={styles.factsHeader}>
-                <View style={[styles.factsIconContainer, { backgroundColor: '#dbeafe' }]}>
-                  {renderIcon('info', 18, '#3b82f6')}
-                </View>
-                <Text style={styles.factsTitle}>Did You Know?</Text>
-              </View>
-              <Animated.View style={[styles.factsContent, { opacity: fadeAnim }]}>
-                <Text style={styles.factText}>{funFacts[currentFactIndex].fact}</Text>
-              </Animated.View>
-              <View style={styles.factsDots}>
-                {funFacts.map((_, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      styles.factDot,
-                      currentFactIndex === index ? styles.factDotActive : {}
-                    ]}
-                  />
-                ))}
-              </View>
+            <View style={styles.tipCard}>
+              <Text style={styles.tipText}>Place a filled water bottle in your toilet tank to reduce water usage</Text>
+            </View>
+            <View style={styles.tipCard}>
+              <Text style={styles.tipText}>Use cloth napkins instead of paper to reduce household waste</Text>
+            </View>
+            <View style={styles.tipCard}>
+              <Text style={styles.tipText}>Make a shopping list before going to the store to avoid impulse buys</Text>
             </View>
           </View>
-          
-          {/* Trending Now Section */}
-          <View style={styles.sectionContainer}>
-            <View style={styles.sectionHeader}>
-              <View style={styles.trendingHeader}>
-                <View style={[styles.categoryIcon, { backgroundColor: '#fee2e2' }]}>
-                  {renderIcon('trending-up', 18, '#ef4444')}
-                </View>
-                <Text style={styles.sectionTitle}>Related videos</Text>
-              </View>
-              <TouchableOpacity style={styles.viewAllButton}>
-                <Text style={styles.viewAllText}>View All</Text>
-                {renderIcon('chevron-right', 16, '#10b981')}
-              </TouchableOpacity>
-            </View>
-            
-            {/* Video Cards */}
-            <ScrollView 
-              horizontal 
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.horizontalScroll}
-            >
-              {youtubeVideos.map((video) => (
-                <View key={video.id} style={styles.videoCard}>
-                  <View style={styles.thumbnailContainer}>
-                    <Image source={{ uri: video.thumbnail }} style={styles.thumbnail} />
-                    <View style={styles.thumbnailOverlay}></View>
-                  </View>
-                  <View style={styles.videoCardContent}>
-                    <View style={styles.videoCardHeader}>
-                      <Text style={styles.videoCardTitle}>{video.title}</Text>
-                    </View>
-                    <Text style={styles.videoCardDescription}>{video.channel}</Text>
-                    <View style={styles.videoCardStats}>
-                      {renderIcon('video', 14, '#6b7280')}
-                      <Text style={styles.videoCardStatsText}>YouTube</Text>
-                    </View>
-                  </View>
-                </View>
-              ))}
-            </ScrollView>
-          </View>
-
-          {/* Quick Tips Grid */}
-          <View style={styles.sectionContainer}>
-            <View style={styles.sectionHeader}>
-              <View style={styles.tipsHeader}>
-                <View style={[styles.categoryIcon, { backgroundColor: '#f1f5f9' }]}>
-                  {renderIcon('star', 18, '#64748b')}
-                </View>
-                <Text style={styles.sectionTitle}>Quick Tips</Text>
-              </View>
-            </View>
-            
-            <View style={styles.tipsGrid}>
-              <View style={styles.tipCard}>
-                <View style={[styles.tipCategoryBadge, { backgroundColor: '#ecfdf5' }]}>
-                  <Text style={[styles.tipCategoryText, { color: '#10b981' }]}>Food</Text>
-                </View>
-                <Text style={styles.tipText}>Store herbs like fresh flowers in water to keep them fresh longer</Text>
-              </View>
-              
-              <View style={styles.tipCard}>
-                <View style={[styles.tipCategoryBadge, { backgroundColor: '#eff6ff' }]}>
-                  <Text style={[styles.tipCategoryText, { color: '#3b82f6' }]}>Water</Text>
-                </View>
-                <Text style={styles.tipText}>Place a filled water bottle in your toilet tank to reduce water usage</Text>
-              </View>
-              
-              <View style={styles.tipCard}>
-                <View style={[styles.tipCategoryBadge, { backgroundColor: '#f1f5f9' }]}>
-                  <Text style={[styles.tipCategoryText, { color: '#6b7280' }]}>Waste</Text>
-                </View>
-                <Text style={styles.tipText}>Use cloth napkins instead of paper to reduce household waste</Text>
-              </View>
-              
-              <View style={styles.tipCard}>
-                <View style={[styles.tipCategoryBadge, { backgroundColor: '#f3e8ff' }]}>
-                  <Text style={[styles.tipCategoryText, { color: '#8b5cf6' }]}>Shopping</Text>
-                </View>
-                <Text style={styles.tipText}>Make a shopping list before going to the store to avoid impulse buys</Text>
-              </View>
-            </View>
-          </View>
-        </Navigation>
-        <Footer/>
+        </View>
       </ScrollView>
-    </View>
+      <Footer />
+      <ChatBot visible={false} />
+    </Navigation>
   );
 };
 
