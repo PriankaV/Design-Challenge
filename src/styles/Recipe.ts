@@ -220,6 +220,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 24,
     marginTop: 16,
+    marginBottom: 16,
   },
   paginationButton: {
     flexDirection: 'row',
@@ -232,6 +233,7 @@ export const styles = StyleSheet.create({
     borderColor: '#FF6B35',
     minWidth: 100,
     justifyContent: 'center',
+    marginBottom: 16,
   },
   paginationButtonDisabled: {
     backgroundColor: '#f5f5f5',
