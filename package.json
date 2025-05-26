@@ -1,10 +1,12 @@
 {
+  "homepage": "https://priankav.github.io/Design-Challenge",
   "name": "my-app",
   "version": "1.0.0",
   "main": "index.js",
-  "homepage": "https://priankav.github.io/Design-Challenge",
   "scripts": {
     "start": "expo start --dev-client",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web"
