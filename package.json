@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "expo start --dev-client",
+    "build": "expo export --platform web",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "android": "expo run:android",
