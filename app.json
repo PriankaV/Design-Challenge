@@ -2,8 +2,9 @@
   "expo": {
     "name": "my-app",
     "slug": "my-app",
-    "version": "1.0.0",
-    "ios": {
+"version": "1.0.0",
+"platforms": ["ios", "android", "web"],
+"ios": {
       "config": {
         "googleMapsApiKey": "AIzaSyBBKP_WL23xgy00U1jNSxoQ-qAzcQTyrCo"
       }
@@ -20,7 +21,7 @@
       ]
     },
     "web": {
-      "bundler": "webpack",
+      "bundler": "metro",
       "output": "static",
       "favicon": "./assets/favicon.png"
     }
