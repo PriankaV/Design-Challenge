@@ -18,6 +18,11 @@
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION"
       ]
+    },
+    "web": {
+      "bundler": "webpack",
+      "output": "static",
+      "favicon": "./assets/favicon.png"
     }
   }
 }
