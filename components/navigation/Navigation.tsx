@@ -2,6 +2,7 @@ import { usePathname, useRouter } from 'expo-router';
 import { BookOpen, GraduationCap, Home, Lightbulb, Menu } from 'lucide-react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import logo from '../../assets/images/logo.png';
+import Footer from '../Footer';
 
 type NavigationProps = {
   children?: React.ReactNode;
@@ -11,26 +12,19 @@ const Navigation: React.FC<NavigationProps> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const basePath = Platform.OS === 'web' ? '/Design-Challenge' : '';
-
-  const navItems: { name: string; path: string; icon: (color: string) => React.ReactNode }[] = [
-    { name: 'Home', path: `${basePath}/`, icon: (color: string) => <Home size={20} color={color} /> },
-    { name: 'Recipes', path: `${basePath}/RecipeScreen`, icon: (color: string) => <BookOpen size={20} color={color} /> },
-    { name: 'Savings Guide', path: `${basePath}/EducationHubScreen`, icon: (color: string) => <GraduationCap size={20} color={color} /> },
-    { name: 'Find Help', path: `${basePath}/FindHelpScreen`, icon: (color: string) => <Lightbulb size={20} color={color} /> },
-  ];
-
-  const handleNavigation = (path: string) => {
-    router.push(path);
+  const isRouteActive = (routePath: string): boolean => {
+    return pathname === routePath;
   };
 
-  const isRouteActive = (routePath: string): boolean => {
-    // For web, pathname includes the base path
-    if (Platform.OS === 'web') {
-      return pathname === routePath;
-    }
-    // For native, strip basePath
-    return pathname === routePath.replace(basePath, '') || pathname === routePath;
+  const navItems: { name: string; path: '/' | '/RecipeScreen' | '/EducationHubScreen' | '/FindHelpScreen'; icon: (color: string) => React.ReactNode }[] = [
+    { name: 'Home', path: '/', icon: (color: string) => <Home size={20} color={color} /> },
+    { name: 'Recipes', path: '/RecipeScreen', icon: (color: string) => <BookOpen size={20} color={color} /> },
+    { name: 'Savings Guide', path: '/EducationHubScreen', icon: (color: string) => <GraduationCap size={20} color={color} /> },
+    { name: 'Find Help', path: '/FindHelpScreen', icon: (color: string) => <Lightbulb size={20} color={color} /> },
+  ];
+
+  const handleNavigation = (path: '/' | '/RecipeScreen' | '/EducationHubScreen' | '/FindHelpScreen') => {
+    router.push(path);
   };
 
   // Web version layout
