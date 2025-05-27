@@ -1,56 +1,50 @@
-# 🥗 Budget Bites
+# Welcome to your Expo app 👋
 
-**Budget Bites** is a community-centered web app designed to tackle food insecurity in under-resourced areas. The platform promotes food accessibility, affordability, and waste reduction by connecting users with local resources, educational materials, and peer-to-peer food sharing.
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
----
+## Get started
 
-## 🌟 Features
+1. Install dependencies
 
-- **Local Food Map**
-  - Locate affordable grocery stores, food banks, and surplus pickup spots
-  - Filter by item (e.g. "milk", "rice") or sort by distance, price, or diet
-- **Recipes Explorer**
-  - Explore cuisines globally and access affordable meal ideas
-- **Community Food Sharing**
-  - Post and browse surplus food from neighbors (e.g., canned goods, garden produce)
-- **Education Hub**
-  - Learn about food waste reduction, freezing techniques, composting, and more
-- **Notifications**
-  - Stay updated on local food posts, events, and donation needs
+   ```bash
+   npm install
+   ```
 
----
-## Dependencies
-Front End:
-- React
-- React Native
-- Supabase
-- Axios
-- APIs: 
+2. Start the app
 
-## 📁 Project Structure
+   ```bash
+   npx expo start
+   ```
+
+In the output, you'll find options to open the app in a
+
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+
+## Get a fresh project
+
+When you're ready, run:
+
 ```bash
-/src
-  /components        # Reusable UI components: Footer, NavBar, ect.
-  /screens           # Pages (Map, Recipes, Education, etc.)
-  /utils             # Superbase Client, ChatBot
-  App.js
-  index.js
+npm run reset-project
 ```
 
-## ✨ Future Enhancements
-- Badge system for donors (gamified impact tracker)
-- Partner hub for nonprofits and food banks
-- Role-based user settings (family, grocer, volunteer)
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-## Installation 
-1. Download Node.js, https://nodejs.org/en
-2. Go to terminal ```npm install -g expo-cli```
-3. Run the App
-```
-git clone https://github.com/PriankaV/Design-Challenge.git
-cd Design-Challenge
-npm install
-npx expo install react-dom react-native-web @expo/metro-runtime
-npx expo start
-```
+## Learn more
 
+To learn more about developing your project with Expo, look at the following resources:
+
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+
+## Join the community
+
+Join our community of developers creating universal apps.
+
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
