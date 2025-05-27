@@ -336,24 +336,6 @@ const EducationHubScreen = () => {
             );
           })}
         </View>
-        {/* Quick Tips */}
-        <View style={styles.tipsContainer}>
-          <Text style={styles.sectionTitle}>Quick Tips</Text>
-          <View style={styles.tipsGrid}>
-            <View style={styles.tipCard}>
-              <Text style={styles.tipText}>Store herbs like fresh flowers in water to keep them fresh longer</Text>
-            </View>
-            <View style={styles.tipCard}>
-              <Text style={styles.tipText}>Place a filled water bottle in your toilet tank to reduce water usage</Text>
-            </View>
-            <View style={styles.tipCard}>
-              <Text style={styles.tipText}>Use cloth napkins instead of paper to reduce household waste</Text>
-            </View>
-            <View style={styles.tipCard}>
-              <Text style={styles.tipText}>Make a shopping list before going to the store to avoid impulse buys</Text>
-            </View>
-          </View>
-        </View>
       </ScrollView>
       <Footer />
       <ChatBot visible={false} />

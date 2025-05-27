@@ -4,9 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const Footer = () => {
   return (
     <View style={styles.footer}>
-      <Text style={styles.footerText}>
-        Hi
-      </Text>
+      {/* Empty footer */}
     </View>
   );
 };
